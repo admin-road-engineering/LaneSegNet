@@ -10,7 +10,9 @@ from PIL import Image
 # Updated imports for the new structure
 from .inference import run_inference, format_results
 from .model_loader import load_model
-from .schemas import LaneDetectionResponse, ErrorResponse
+from .schemas import RoadInfrastructureResponse, ErrorResponse, GeographicBounds, InfrastructureElement, AnalysisSummary, ImageMetadata
+from .imagery_acquisition import imagery_manager
+from .coordinate_transform import CoordinateTransformer, GeographicAnalyzer
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -95,21 +97,36 @@ def visualize_lane_markings(image_np: np.ndarray, lane_markings: list) -> np.nda
     return vis_image
 
 
-@app.post("/detect_lane_markings", 
-            response_model=LaneDetectionResponse, 
+@app.post("/analyze_road_infrastructure", 
+            response_model=RoadInfrastructureResponse, 
             responses={
-                400: {"model": ErrorResponse, "description": "Invalid input image"},
+                400: {"model": ErrorResponse, "description": "Invalid input data"},
                 500: {"model": ErrorResponse, "description": "Internal server error"},
                 503: {"model": ErrorResponse, "description": "Model not loaded"}
             },
-            summary="Detect Lane Markings in Aerial Imagery",
-            description="Detects and classifies lane markings from aerial imagery using deep learning segmentation models",
-            tags=["Lane Marking Detection"])
-async def detect_lane_markings(
-    image: UploadFile = File(..., description="Aerial image file for lane marking detection."),
-    visualize: bool = False,  # Optional query parameter for visualization
-    model_type: str = "swin"  # Choice between 'swin' and 'lanesegnet'
+            summary="Analyze Road Infrastructure from Coordinates",
+            description="Analyzes road infrastructure (lane markings, pavements, footpaths, etc.) from geographic coordinates using aerial imagery",
+            tags=["Road Infrastructure Analysis"])
+async def analyze_road_infrastructure(
+    coordinates: GeographicBounds,  # Lat/lon bounding box from frontend
+    analysis_type: str = "comprehensive",  # 'lane_markings', 'pavements', 'comprehensive'
+    resolution: float = 0.1,  # meters per pixel
+    visualize: bool = False,
+    model_type: str = "swin"
 ):
+    """
+    Analyzes complete road infrastructure from geographic coordinates.
+    
+    **Supported infrastructure types:**
+    - Lane markings: solid lines, dashed lines, crosswalks
+    - Road surfaces: asphalt, concrete, gravel, dirt
+    - Pedestrian infrastructure: sidewalks, footpaths, bike lanes
+    - Road features: edges, curbs, medians, shoulders
+    - Utilities: storm drains, utility covers, parking spaces
+    
+    **Input**: Geographic bounding box coordinates from road-engineering frontend
+    **Output**: Detailed infrastructure analysis with geometric data
+    """
     """
     Detects and classifies lane markings from aerial imagery.
     

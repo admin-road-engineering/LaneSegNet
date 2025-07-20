@@ -10,7 +10,7 @@ from PIL import Image
 # Updated imports for the new structure
 from .inference import run_inference, format_results
 from .model_loader import load_model
-from .schemas import RoadInfrastructureResponse, ErrorResponse, GeographicBounds, InfrastructureElement, AnalysisSummary, ImageMetadata
+from .schemas import RoadInfrastructureResponse, ErrorResponse, GeographicBounds, InfrastructureElement, AnalysisSummary, ImageMetadata, InfrastructureType
 from .imagery_acquisition import imagery_manager
 from .coordinate_transform import CoordinateTransformer, GeographicAnalyzer
 
@@ -127,93 +127,150 @@ async def analyze_road_infrastructure(
     **Input**: Geographic bounding box coordinates from road-engineering frontend
     **Output**: Detailed infrastructure analysis with geometric data
     """
-    """
-    Detects and classifies lane markings from aerial imagery.
-    
-    **Supported lane marking classes:**
-    - single_white_solid, single_white_dashed
-    - single_yellow_solid, single_yellow_dashed  
-    - double_white_solid, double_yellow_solid
-    - road_edge, center_line, lane_divider
-    - crosswalk, stop_line
-
-    - **image**: The aerial image file (JPEG, PNG, etc.) to analyze
-    - **visualize**: Return annotated image instead of JSON data
-    - **model_type**: Model to use ('swin' for Swin Transformer, 'lanesegnet' for specialized model)
-    """
     start_time = time.time()
     if not model:
-        logger.warning("Detect lanes endpoint called but model is not loaded.")
+        logger.warning("Infrastructure analysis endpoint called but model is not loaded.")
         raise HTTPException(status_code=503, detail="Model is not available or failed to load.")
 
-    if not image.content_type or not image.content_type.startswith('image/'):
-        logger.warning(f"Invalid content type received: {image.content_type}")
-        raise HTTPException(status_code=400, detail=f"Invalid file type '{image.content_type}'. Please upload an image.")
-
     try:
-        image_bytes = await image.read()
-        file_size_kb = len(image_bytes) / 1024
-        logger.info(f"Received image: {image.filename}, size: {file_size_kb:.2f} KB, type: {image.content_type}")
-
-        try:
-            img_pil = Image.open(io.BytesIO(image_bytes)).convert('RGB')
-            img_pil.verify() # Verify image header and format
-            # Re-open after verify to read actual image data
-            img_pil = Image.open(io.BytesIO(image_bytes)).convert('RGB')
-            original_shape = img_pil.size # (width, height)
-            img_np_rgb = np.array(img_pil) # Convert PIL RGB to NumPy RGB for inference
-            logger.info(f"Image validated: {image.filename}, shape: {original_shape}")
-        except Exception as e:
-            logger.error(f"Invalid image file provided: {image.filename} - {e}")
-            raise HTTPException(status_code=400, detail=f"Invalid or corrupted image file: {e}")
-
-        # --- Lane Marking Detection Pipeline ---
-        logger.info(f"Starting lane marking detection for {image.filename}...")
-        logger.info(f"Using model type: {model_type}")
+        # Validate coordinate bounds
+        if coordinates.north <= coordinates.south or coordinates.east <= coordinates.west:
+            raise HTTPException(status_code=400, detail="Invalid coordinate bounds: north must be > south, east must be > west")
         
-        # Run inference - MMsegmentation handles preprocessing internally
+        # Calculate coordinate area for validation
+        lat_extent = coordinates.north - coordinates.south
+        lon_extent = coordinates.east - coordinates.west
+        approx_area_km2 = lat_extent * lon_extent * 111 * 111  # Rough km² calculation
+        
+        if approx_area_km2 > 100:  # Limit to 100 km² for now
+            raise HTTPException(status_code=400, detail=f"Analysis area too large: {approx_area_km2:.2f} km². Maximum allowed: 100 km²")
+        
+        logger.info(f"Starting infrastructure analysis for coordinates: {coordinates}")
+        logger.info(f"Analysis type: {analysis_type}, Resolution: {resolution} m/px, Model: {model_type}")
+        
+        # --- Imagery Acquisition Pipeline ---
+        logger.info("Acquiring aerial imagery from coordinate bounds...")
+        try:
+            imagery_result = await imagery_manager.acquire_imagery(
+                bounds=coordinates,
+                resolution_mpp=resolution,
+                preferred_provider="osm"  # Start with OpenStreetMap as primary (free)
+            )
+            
+            if not imagery_result or "image" not in imagery_result:
+                raise RuntimeError("Failed to acquire aerial imagery for the specified coordinates")
+            
+            img_np_rgb = imagery_result["image"]  # Should be RGB numpy array
+            image_metadata = imagery_result.get("metadata", {})
+            original_shape = (img_np_rgb.shape[1], img_np_rgb.shape[0])  # (width, height)
+            
+            logger.info(f"Acquired imagery: {original_shape[0]}x{original_shape[1]} pixels from {image_metadata.get('source', 'unknown')}")
+            
+        except Exception as e:
+            logger.error(f"Imagery acquisition failed: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to acquire aerial imagery: {e}")
+
+        # --- Infrastructure Detection Pipeline ---
+        logger.info("Running infrastructure detection model...")
         try:
             segmentation_map = run_inference(model, img_np_rgb)
             if segmentation_map is None:
-                raise RuntimeError("Lane marking detection inference failed.")
+                raise RuntimeError("Infrastructure detection inference failed.")
         except RuntimeError as e:
-            logger.error(f"Lane marking inference failed for {image.filename}: {e}")
-            raise HTTPException(status_code=500, detail=f"Lane marking detection failed: {e}")
+            logger.error(f"Infrastructure inference failed: {e}")
+            raise HTTPException(status_code=500, detail=f"Infrastructure detection failed: {e}")
 
-        # Extract and format lane marking results
+        # --- Coordinate Transformation Setup ---
+        transformer = CoordinateTransformer(
+            bounds=coordinates,
+            image_width=original_shape[0],
+            image_height=original_shape[1],
+            resolution_mpp=resolution
+        )
+        analyzer = GeographicAnalyzer(transformer)
+
+        # --- Extract and Format Infrastructure Results ---
         try:
-            results = format_results(segmentation_map, original_shape)
-            if "error" in results and results["error"]:
-                raise ValueError(results["error"])
-        except ValueError as e:
-            logger.error(f"Lane marking result formatting failed for {image.filename}: {e}")
+            # Get basic detection results
+            detection_results = format_results(segmentation_map, original_shape)
+            if "error" in detection_results and detection_results["error"]:
+                raise ValueError(detection_results["error"])
+            
+            # Transform to comprehensive infrastructure format
+            infrastructure_elements = []
+            lane_markings = detection_results.get("lane_markings", [])
+            
+            for idx, marking in enumerate(lane_markings):
+                # Convert to geographic coordinates
+                pixel_points = marking.get("points", [])
+                geographic_points = transformer.transform_polyline_to_geographic(pixel_points)
+                
+                # Calculate measurements
+                length_pixels = len(pixel_points) * 2 if pixel_points else 0  # Rough estimate
+                length_meters = transformer.pixel_distance_to_meters(length_pixels)
+                area_pixels = length_pixels * 2  # Rough line area estimate
+                area_sqm = transformer.calculate_area_sqm(area_pixels)
+                
+                # Create infrastructure element
+                element = InfrastructureElement(
+                    **{"class": marking.get("class", "unknown")},  # Use the 'class' field properly
+                    class_id=marking.get("class_id", 0),
+                    infrastructure_type=InfrastructureType.LANE_MARKING,
+                    points=pixel_points,
+                    geographic_points=geographic_points,
+                    confidence=marking.get("confidence", 1.0),
+                    area_pixels=area_pixels,
+                    area_sqm=area_sqm,
+                    length_pixels=length_pixels,
+                    length_meters=length_meters
+                )
+                infrastructure_elements.append(element)
+            
+            # Create analysis summary
+            class_counts = detection_results.get("class_summary", {})
+            analysis_summary = AnalysisSummary(
+                total_elements=len(infrastructure_elements),
+                elements_by_type={"lane_marking": len(infrastructure_elements)},
+                elements_by_class=class_counts,
+                total_lane_length_m=sum(e.length_meters or 0 for e in infrastructure_elements)
+            )
+            
+            # Create image metadata
+            img_metadata = ImageMetadata(
+                width=original_shape[0],
+                height=original_shape[1],
+                resolution_mpp=resolution,
+                bounds=coordinates,
+                source=image_metadata.get("source", "aerial_imagery")
+            )
+            
+        except Exception as e:
+            logger.error(f"Result formatting failed: {e}")
             raise HTTPException(status_code=500, detail=f"Result formatting failed: {e}")
 
         # --- Response Handling ---
         end_time = time.time()
         processing_time_ms = (end_time - start_time) * 1000
         
-        lane_markings = results.get("lane_markings", [])
-        total_segments = results.get("total_segments", 0)
-        class_summary = results.get("class_summary", {})
-        
-        logger.info(f"Lane marking detection completed for {image.filename} in {processing_time_ms:.2f} ms.")
-        logger.info(f"Detected {total_segments} lane marking segments: {class_summary}")
+        logger.info(f"Infrastructure analysis completed in {processing_time_ms:.2f} ms.")
+        logger.info(f"Detected {len(infrastructure_elements)} infrastructure elements")
 
         if not visualize:
-            # Return JSON response with lane marking data
-            response_data = {
-                "lane_markings": lane_markings,
-                "class_summary": class_summary,
-                "total_segments": total_segments,
-                "processing_time_ms": processing_time_ms,
-                "model_type": model_type,
-                "image_shape": {"width": original_shape[0], "height": original_shape[1]}
-            }
-            return response_data
+            # Return comprehensive infrastructure analysis response
+            response = RoadInfrastructureResponse(
+                infrastructure_elements=infrastructure_elements,
+                analysis_summary=analysis_summary,
+                image_metadata=img_metadata,
+                processing_time_ms=processing_time_ms,
+                model_type=model_type,
+                analysis_type=analysis_type,
+                confidence_threshold=0.5,
+                coverage_percentage=100.0
+            )
+            return response
         else:
             # --- Visualization ---
-            logger.info(f"Generating lane marking visualization for {image.filename}...")
+            logger.info("Generating infrastructure visualization...")
             try:
                 img_np_bgr = cv2.cvtColor(img_np_rgb, cv2.COLOR_RGB2BGR)
                 vis_image = visualize_lane_markings(img_np_bgr, lane_markings)
@@ -225,14 +282,14 @@ async def analyze_road_infrastructure(
                 
                 return StreamingResponse(io.BytesIO(buffer.tobytes()), media_type="image/jpeg")
             except Exception as e:
-                logger.error(f"Visualization failed for {image.filename}: {e}", exc_info=True)
+                logger.error(f"Visualization failed: {e}", exc_info=True)
                 raise HTTPException(status_code=500, detail=f"Failed to generate visualization: {e}")
 
     except HTTPException as http_exc:
         # Re-raise HTTPExceptions directly to maintain status code and detail
         raise http_exc
     except Exception as e:
-        logger.exception(f"An unexpected error occurred during lane detection for {image.filename}") 
+        logger.exception(f"An unexpected error occurred during infrastructure analysis") 
         raise HTTPException(status_code=500, detail=f"An internal server error occurred: {e}")
 
 @app.get("/health", 

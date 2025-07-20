@@ -6,7 +6,7 @@ geographic coordinates (lat/lon) and image pixel coordinates.
 import logging
 import numpy as np
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 from .schemas import GeographicBounds, GeographicPoint
 
 logger = logging.getLogger(__name__)

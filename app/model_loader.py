@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 # Based on the ArXiv paper: https://arxiv.org/html/2410.05717v1
 # Supports 12-14 lane marking classes for aerial imagery
 
-# Swin Transformer configuration for semantic segmentation
-CONFIG_FILE = 'configs/mmseg/swin-base-patch4-window7-in1k-pre_upernet_8xb2-160k_ade20k-512x512.py'
+# Swin Transformer configuration for 12-class lane marking segmentation  
+CONFIG_FILE = 'configs/mmseg/swin_base_lane_markings_12class.py'
 CHECKPOINT_FILE = 'weights/upernet_swin_base_patch4_window7_512x512_160k_ade20k_pretrain_224x224_1K_20210526_192340-593b0e13.pth'
 
 # Alternative: LaneSegNet configuration for specialized lane detection

@@ -6,6 +6,11 @@ from typing import Dict
 from mmseg.apis import inference_model
 
 from .model_loader import DEVICE, get_lane_classes, get_num_classes
+from .enhanced_post_processing import (
+    apply_physics_informed_filtering,
+    enhance_lane_connectivity,
+    apply_temporal_consistency
+)
 
 logger = logging.getLogger(__name__)
 
@@ -314,7 +319,24 @@ def format_results(segmentation_map: np.ndarray, original_shape: tuple):
                 
                 lane_markings.append(lane_marking)
         
-        logger.info(f"Extracted {len(lane_markings)} lane marking segments across all classes.")
+        logger.info(f"Extracted {len(lane_markings)} raw lane marking segments across all classes.")
+        
+        # Phase 2 Enhancement: Apply enhanced post-processing
+        logger.info("Applying Phase 2 enhanced post-processing for 80-85% mIoU target...")
+        
+        # Step 1: Physics-informed filtering
+        lane_markings = apply_physics_informed_filtering(
+            lane_markings, 
+            (segmentation_map.shape[0], segmentation_map.shape[1])
+        )
+        
+        # Step 2: Enhance connectivity
+        lane_markings = enhance_lane_connectivity(lane_markings, max_gap_distance=30.0)
+        
+        # Step 3: Apply temporal consistency (placeholder for video sequences)
+        lane_markings = apply_temporal_consistency(lane_markings)
+        
+        logger.info(f"Enhanced post-processing complete: {len(lane_markings)} final segments")
         
         # Group by class for summary
         class_counts = {}
@@ -322,12 +344,13 @@ def format_results(segmentation_map: np.ndarray, original_shape: tuple):
             class_name = marking["class"]
             class_counts[class_name] = class_counts.get(class_name, 0) + 1
         
-        logger.info(f"Lane marking detection summary: {class_counts}")
+        logger.info(f"Enhanced lane marking detection summary: {class_counts}")
         
         return {
             "lane_markings": lane_markings,
             "class_summary": class_counts,
-            "total_segments": len(lane_markings)
+            "total_segments": len(lane_markings),
+            "enhancement_status": "Phase 2 enhanced post-processing applied"
         }
 
     except Exception as e:

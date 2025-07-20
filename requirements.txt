@@ -1,0 +1,61 @@
+# Core FastAPI framework
+fastapi
+uvicorn[standard]
+
+# Image handling
+pillow
+
+# Data handling
+numpy<2.0 # Note: mmcv 2.2.0 might pull a newer numpy. Monitor for conflicts.
+
+# For handling multipart form data (file uploads)
+python-multipart
+
+# Python 2/3 compatibility (dependency for pretrainedmodels/smp)
+six
+
+# --- Deep Learning & Computer Vision ---
+
+# Segmentation Model Library (for U-Net)
+# If you are only using the MMsegmentation model, this might be removable.
+segmentation-models-pytorch
+
+# Image Processing (Post-processing, Visualization)
+opencv-python-headless
+
+# Skeletonization (Post-processing)
+scikit-image
+
+# Note: PyTorch, MMCV, and MMSegmentation are installed with specific versions
+# or from git directly in the Dockerfile to ensure compatibility.
+
+# Add any *other* dependencies listed in the original LaneSegNet repository's
+# requirements.txt file here if they are needed for inference.
+# Example:
+# scipy
+# pandas
+
+# TIMM (PyTorch Image Models)
+timm==1.0.15
+
+
+# Optional: For specific functionalities within MM libraries
+# yapf
+# cityscapesscripts
+
+
+# openmim is a CLI tool to manage OpenMMLab packages, can be useful for local dev or specific installs
+openmim
+
+# Other common utilities that were pulled in by other packages or might be useful
+matplotlib
+scipy
+prettytable
+packaging
+pyyaml
+huggingface_hub
+safetensors
+requests
+tqdm
+ftfy
+regex 

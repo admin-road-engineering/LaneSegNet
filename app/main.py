@@ -15,71 +15,114 @@ from .schemas import LaneDetectionResponse, ErrorResponse
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="Aerial Lane Detection API", version="0.3.0")
+app = FastAPI(
+    title="Aerial Lane Marking Detection API", 
+    version="1.0.0",
+    description="Deep learning-based lane marking detection from aerial imagery for HD map creation"
+)
 
 # Global variable to hold the segmentation model
 model = None
 # model_config is removed as it's not needed for this model type
 
 @app.on_event("startup")
-def startup_event(): # Can be sync if model loading is sync
+def startup_event():
     global model
-    logger.info("Loading MMsegmentation model (Swin Transformer)...")
-    model = load_model() # Call the updated loader
+    logger.info("Loading lane marking detection model...")
+    model = load_model(use_lanesegnet=False)  # Start with Swin Transformer
     if model:
-        logger.info("MMsegmentation model loaded successfully.")
+        logger.info("Lane marking detection model loaded successfully.")
     else:
-        logger.error("Failed to load MMsegmentation model. API will not function correctly.")
-        # Consider raising an error to stop startup if model is essential
-        # raise RuntimeError("Could not load the segmentation model")
+        logger.error("Failed to load lane marking detection model. API will not function correctly.")
+        # For production, uncomment the next line to prevent startup with failed model loading
+        # raise RuntimeError("Could not load the lane marking detection model")
 
 # Helper function for visualization
-def visualize_lanes(image_np: np.ndarray, lanes_data: list) -> np.ndarray:
-    """Draws detected lanes on the image.
+def visualize_lane_markings(image_np: np.ndarray, lane_markings: list) -> np.ndarray:
+    """Draws detected lane markings on the image with class-specific colors.
+    
     Args:
-        image_np: Original image as a NumPy array (BGR format).
-        lanes_data: List of lane segment dictionaries from format_results.
+        image_np: Original image as NumPy array (BGR format).
+        lane_markings: List of lane marking dictionaries from format_results.
+        
     Returns:
-        Image as NumPy array with lanes drawn.
+        Image as NumPy array with lane markings drawn.
     """
+    # Define colors for different lane marking classes (BGR format)
+    class_colors = {
+        'single_white_solid': (255, 255, 255),     # White
+        'single_white_dashed': (200, 200, 200),   # Light gray
+        'single_yellow_solid': (0, 255, 255),     # Yellow
+        'single_yellow_dashed': (0, 200, 200),    # Dark yellow
+        'double_white_solid': (255, 255, 255),    # White
+        'double_yellow_solid': (0, 255, 255),     # Yellow
+        'road_edge': (0, 255, 0),                 # Green
+        'center_line': (0, 0, 255),               # Red
+        'lane_divider': (255, 0, 255),            # Magenta
+        'crosswalk': (255, 0, 0),                 # Blue
+        'stop_line': (0, 0, 255),                 # Red
+        'background': (128, 128, 128)             # Gray
+    }
+    
     vis_image = image_np.copy()
-    for lane in lanes_data:
-        points = lane.get('points', [])
-        lane_type = lane.get('type', 'solid') # Default to solid if type is missing
+    
+    for marking in lane_markings:
+        points = marking.get('points', [])
+        class_name = marking.get('class', 'background')
+        
         if not points or not isinstance(points, list) or len(points) < 2:
             continue
         
-        # Ensure points are in the correct format for cv2.polylines, e.g., List[List[int]] or List[Tuple[int, int]]
-        # The points from approxPolyDP are already List[List[int]] after .tolist()
-        # if they are flat List[int] from a single point, format_results should handle it.
         try:
             cv2_points = np.array(points, dtype=np.int32).reshape((-1, 1, 2))
         except ValueError as e:
-            logger.warning(f"Could not convert points to NumPy array for visualization: {points} - {e}")
+            logger.warning(f"Could not convert points for visualization: {points} - {e}")
             continue
         
-        color = (0, 0, 255) # Red for all detected roads for now (BGR)
-        cv2.polylines(vis_image, [cv2_points], isClosed=False, color=color, thickness=2)
+        # Get color for this class
+        color = class_colors.get(class_name, (128, 128, 128))  # Default to gray
+        
+        # Draw the lane marking
+        thickness = 3 if 'solid' in class_name else 2
+        cv2.polylines(vis_image, [cv2_points], isClosed=False, color=color, thickness=thickness)
+        
+        # Add class label near the first point
+        if len(points) > 0:
+            label_pos = (int(points[0][0]), int(points[0][1]) - 10)
+            cv2.putText(vis_image, class_name, label_pos, cv2.FONT_HERSHEY_SIMPLEX, 
+                       0.5, color, 1, cv2.LINE_AA)
+    
     return vis_image
 
 
-@app.post("/detect_lanes", 
+@app.post("/detect_lane_markings", 
             response_model=LaneDetectionResponse, 
             responses={
                 400: {"model": ErrorResponse, "description": "Invalid input image"},
                 500: {"model": ErrorResponse, "description": "Internal server error"},
                 503: {"model": ErrorResponse, "description": "Model not loaded"}
             },
-            summary="Detect Lane Markings in an Aerial Image (Swin Transformer)",
-            tags=["Lane Detection"])
-async def detect_lanes(image: UploadFile = File(..., description="Aerial image file for lane detection."),
-                       visualize: bool = False # Optional query parameter for visualization
-                       ):
+            summary="Detect Lane Markings in Aerial Imagery",
+            description="Detects and classifies lane markings from aerial imagery using deep learning segmentation models",
+            tags=["Lane Marking Detection"])
+async def detect_lane_markings(
+    image: UploadFile = File(..., description="Aerial image file for lane marking detection."),
+    visualize: bool = False,  # Optional query parameter for visualization
+    model_type: str = "swin"  # Choice between 'swin' and 'lanesegnet'
+):
     """
-    Accepts an aerial image file and returns detected lane segments as polylines.
+    Detects and classifies lane markings from aerial imagery.
+    
+    **Supported lane marking classes:**
+    - single_white_solid, single_white_dashed
+    - single_yellow_solid, single_yellow_dashed  
+    - double_white_solid, double_yellow_solid
+    - road_edge, center_line, lane_divider
+    - crosswalk, stop_line
 
-    - **image**: The aerial image file (e.g., JPEG, PNG) to process.
-    - **visualize**: Set to `true` to return the image with detected lanes drawn on it instead of JSON data.
+    - **image**: The aerial image file (JPEG, PNG, etc.) to analyze
+    - **visualize**: Return annotated image instead of JSON data
+    - **model_type**: Model to use ('swin' for Swin Transformer, 'lanesegnet' for specialized model)
     """
     start_time = time.time()
     if not model:
@@ -107,56 +150,66 @@ async def detect_lanes(image: UploadFile = File(..., description="Aerial image f
             logger.error(f"Invalid image file provided: {image.filename} - {e}")
             raise HTTPException(status_code=400, detail=f"Invalid or corrupted image file: {e}")
 
-        # --- Inference Pipeline --- 
-        logger.info(f"Starting MMsegmentation inference pipeline for {image.filename}...")
+        # --- Lane Marking Detection Pipeline ---
+        logger.info(f"Starting lane marking detection for {image.filename}...")
+        logger.info(f"Using model type: {model_type}")
         
-        # 1. Preprocessing - Handled by MMsegmentation's inference_segmentor
-
-        # 2. Inference - Pass NumPy RGB image
+        # Run inference - MMsegmentation handles preprocessing internally
         try:
-            segmentation_map = run_inference(model, img_np_rgb) # Pass RGB numpy array
+            segmentation_map = run_inference(model, img_np_rgb)
             if segmentation_map is None:
-                raise RuntimeError("Inference did not return a segmentation map.")
+                raise RuntimeError("Lane marking detection inference failed.")
         except RuntimeError as e:
-             logger.error(f"Inference failed for {image.filename}: {e}")
-             raise HTTPException(status_code=500, detail=f"Model inference failed: {e}")
+            logger.error(f"Lane marking inference failed for {image.filename}: {e}")
+            raise HTTPException(status_code=500, detail=f"Lane marking detection failed: {e}")
 
-        # 3. Postprocessing & Formatting
+        # Extract and format lane marking results
         try:
-            formatted_response = format_results(segmentation_map, original_shape)
-            if "error" in formatted_response and formatted_response["error"]:
-                raise ValueError(formatted_response["error"])
+            results = format_results(segmentation_map, original_shape)
+            if "error" in results and results["error"]:
+                raise ValueError(results["error"])
         except ValueError as e:
-             logger.error(f"Result formatting failed for {image.filename}: {e}")
-             raise HTTPException(status_code=500, detail=f"Result formatting failed: {e}")
+            logger.error(f"Lane marking result formatting failed for {image.filename}: {e}")
+            raise HTTPException(status_code=500, detail=f"Result formatting failed: {e}")
 
         # --- Response Handling ---
         end_time = time.time()
         processing_time_ms = (end_time - start_time) * 1000
-        logger.info(f"Inference pipeline completed for {image.filename} in {processing_time_ms:.2f} ms.")
+        
+        lane_markings = results.get("lane_markings", [])
+        total_segments = results.get("total_segments", 0)
+        class_summary = results.get("class_summary", {})
+        
+        logger.info(f"Lane marking detection completed for {image.filename} in {processing_time_ms:.2f} ms.")
+        logger.info(f"Detected {total_segments} lane marking segments: {class_summary}")
 
-        # Add processing time to JSON response if not visualizing
         if not visualize:
-            formatted_response["processing_time_ms"] = processing_time_ms
-            # FastAPI will automatically validate this against LaneDetectionResponse
-            return formatted_response
+            # Return JSON response with lane marking data
+            response_data = {
+                "lane_markings": lane_markings,
+                "class_summary": class_summary,
+                "total_segments": total_segments,
+                "processing_time_ms": processing_time_ms,
+                "model_type": model_type,
+                "image_shape": {"width": original_shape[0], "height": original_shape[1]}
+            }
+            return response_data
         else:
-            # --- Visualization --- 
-            logger.info(f"Generating visualization for {image.filename}...")
+            # --- Visualization ---
+            logger.info(f"Generating lane marking visualization for {image.filename}...")
             try:
-                img_np_bgr = cv2.cvtColor(img_np_rgb, cv2.COLOR_RGB2BGR) # Convert to BGR for OpenCV drawing
-                vis_image = visualize_lanes(img_np_bgr, formatted_response.get("lanes", []))
+                img_np_bgr = cv2.cvtColor(img_np_rgb, cv2.COLOR_RGB2BGR)
+                vis_image = visualize_lane_markings(img_np_bgr, lane_markings)
                 
-                # Encode image to return
+                # Encode visualization image
                 is_success, buffer = cv2.imencode(".jpg", vis_image)
                 if not is_success:
                     raise ValueError("Failed to encode visualization image.")
                 
-                # Return as image stream
                 return StreamingResponse(io.BytesIO(buffer.tobytes()), media_type="image/jpeg")
             except Exception as e:
-                 logger.error(f"Visualization failed for {image.filename}: {e}", exc_info=True)
-                 raise HTTPException(status_code=500, detail=f"Failed to generate visualization: {e}")
+                logger.error(f"Visualization failed for {image.filename}: {e}", exc_info=True)
+                raise HTTPException(status_code=500, detail=f"Failed to generate visualization: {e}")
 
     except HTTPException as http_exc:
         # Re-raise HTTPExceptions directly to maintain status code and detail

@@ -16,9 +16,8 @@ six
 
 # --- Deep Learning & Computer Vision ---
 
-# Segmentation Model Library (for U-Net)
-# If you are only using the MMsegmentation model, this might be removable.
-segmentation-models-pytorch
+# MMSegmentation handles all segmentation needs
+# segmentation-models-pytorch - removed in favor of MMSegmentation
 
 # Image Processing (Post-processing, Visualization)
 opencv-python-headless

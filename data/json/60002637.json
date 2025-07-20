@@ -1,0 +1,251 @@
+{
+    "coordinates_type": "EPSG:3857",
+    "region": [
+        -5190946.712696619,
+        -2709745.383702006,
+        -5190813.130479187,
+        -2709611.8014845746
+    ],
+    "resolution": [
+        1280,
+        1280
+    ],
+    "meters_per_pixel": 0.10436110736873513,
+    "lanes": [
+        {
+            "road_id": "60000000",
+            "lane_id": "00000000",
+            "single": true,
+            "white": true,
+            "solid": true,
+            "vertices": [
+                [
+                    330,
+                    655
+                ],
+                [
+                    312,
+                    1019
+                ],
+                [
+                    284,
+                    1510
+                ]
+            ]
+        },
+        {
+            "road_id": "60000000",
+            "lane_id": "00000100",
+            "single": true,
+            "white": true,
+            "solid": false,
+            "vertices": [
+                [
+                    365,
+                    660
+                ],
+                [
+                    346,
+                    1064
+                ],
+                [
+                    332,
+                    1358
+                ]
+            ]
+        },
+        {
+            "road_id": "60000000",
+            "lane_id": "00000200",
+            "single": true,
+            "white": true,
+            "solid": false,
+            "vertices": [
+                [
+                    402,
+                    659
+                ],
+                [
+                    382,
+                    1095
+                ],
+                [
+                    362,
+                    1474
+                ]
+            ]
+        },
+        {
+            "road_id": "60000000",
+            "lane_id": "00000300",
+            "single": true,
+            "white": true,
+            "solid": false,
+            "vertices": [
+                [
+                    439,
+                    665
+                ],
+                [
+                    419,
+                    1094
+                ],
+                [
+                    399,
+                    1476
+                ]
+            ]
+        },
+        {
+            "road_id": "60000000",
+            "lane_id": "00000400",
+            "single": true,
+            "white": true,
+            "solid": true,
+            "vertices": [
+                [
+                    479,
+                    652
+                ],
+                [
+                    454,
+                    1097
+                ],
+                [
+                    425,
+                    1605
+                ]
+            ]
+        },
+        {
+            "road_id": "60000100",
+            "lane_id": "00000000",
+            "single": true,
+            "white": true,
+            "solid": true,
+            "vertices": [
+                [
+                    603,
+                    643
+                ],
+                [
+                    584,
+                    1016
+                ],
+                [
+                    558,
+                    1499
+                ]
+            ]
+        },
+        {
+            "road_id": "60000100",
+            "lane_id": "00000100",
+            "single": true,
+            "white": true,
+            "solid": false,
+            "vertices": [
+                [
+                    640,
+                    640
+                ],
+                [
+                    623,
+                    1029
+                ],
+                [
+                    602,
+                    1400
+                ]
+            ]
+        },
+        {
+            "road_id": "60000100",
+            "lane_id": "00000200",
+            "single": true,
+            "white": true,
+            "solid": false,
+            "vertices": [
+                [
+                    679,
+                    642
+                ],
+                [
+                    658,
+                    1020
+                ],
+                [
+                    637,
+                    1423
+                ]
+            ]
+        },
+        {
+            "road_id": "60000100",
+            "lane_id": "00000300",
+            "single": true,
+            "white": true,
+            "solid": false,
+            "vertices": [
+                [
+                    717,
+                    644
+                ],
+                [
+                    695,
+                    1031
+                ],
+                [
+                    668,
+                    1526
+                ]
+            ]
+        },
+        {
+            "road_id": "60000100",
+            "lane_id": "00000400",
+            "single": true,
+            "white": true,
+            "solid": true,
+            "vertices": [
+                [
+                    755,
+                    639
+                ],
+                [
+                    732,
+                    1030
+                ],
+                [
+                    707,
+                    1506
+                ]
+            ]
+        },
+        {
+            "road_id": "60000100",
+            "lane_id": "00000500",
+            "single": true,
+            "white": true,
+            "solid": true,
+            "vertices": [
+                [
+                    786,
+                    634
+                ],
+                [
+                    768,
+                    954
+                ],
+                [
+                    748,
+                    1334
+                ],
+                [
+                    725,
+                    1775
+                ]
+            ]
+        }
+    ]
+}

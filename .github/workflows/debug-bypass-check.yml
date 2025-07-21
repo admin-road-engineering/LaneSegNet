@@ -1,0 +1,137 @@
+name: Debug Bypass Detection
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  detect-debug-code:
+    name: Detect Debug Bypass Code
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for debug bypass in enhanced_post_processing.py
+        run: |
+          # Check for the specific debug bypass pattern
+          if grep -n "debug_markings.*\[:10\]" app/enhanced_post_processing.py; then
+            echo "❌ CRITICAL: Debug bypass found in enhanced_post_processing.py"
+            echo "This bypasses physics-informed filtering and MUST be removed before production!"
+            echo ""
+            echo "Found debug patterns:"
+            grep -n -A 2 -B 2 "debug_markings" app/enhanced_post_processing.py || true
+            exit 1
+          fi
+          
+          # Check for debug return statements
+          if grep -n "return debug_markings" app/enhanced_post_processing.py; then
+            echo "❌ CRITICAL: Debug return statement found"
+            echo "This bypasses production filtering logic!"
+            exit 1
+          fi
+          
+          # Check for debug comments indicating bypass
+          if grep -ni "debug.*bypass\|bypass.*debug" app/enhanced_post_processing.py; then
+            echo "⚠️ WARNING: Debug bypass comments found"
+            echo "Please review and remove debug code:"
+            grep -ni -A 1 -B 1 "debug.*bypass\|bypass.*debug" app/enhanced_post_processing.py || true
+            exit 1
+          fi
+          
+          echo "✅ No debug bypass patterns detected in enhanced_post_processing.py"
+
+      - name: Check for debug mode bypasses in other files
+        run: |
+          # Check for debug bypasses in all Python files
+          BYPASS_PATTERNS=(
+            "if.*debug.*return"
+            "debug.*\[:.*\]"
+            "TESTING.*bypass"
+            "skip.*production"
+            "debug_mode.*True"
+          )
+          
+          FOUND_ISSUES=false
+          
+          for pattern in "${BYPASS_PATTERNS[@]}"; do
+            if find app/ -name "*.py" -exec grep -l "$pattern" {} \; | head -5; then
+              echo "⚠️ Potential debug bypass found with pattern: $pattern"
+              find app/ -name "*.py" -exec grep -Hn "$pattern" {} \; | head -10
+              FOUND_ISSUES=true
+            fi
+          done
+          
+          if [ "$FOUND_ISSUES" = true ]; then
+            echo "❌ Debug bypass patterns detected - review required"
+            exit 1
+          fi
+          
+          echo "✅ No debug bypass patterns found"
+
+      - name: Check for production safety markers
+        run: |
+          # Look for production safety comments/markers
+          if ! grep -r "PRODUCTION.*READY\|PROD.*SAFE" app/; then
+            echo "⚠️ No production safety markers found"
+            echo "Consider adding production readiness indicators"
+          fi
+          
+          # Check for proper error handling instead of debug bypasses
+          if ! grep -r "logger\.error\|raise.*Exception" app/enhanced_post_processing.py; then
+            echo "⚠️ Limited error handling found in post-processing"
+            echo "Ensure proper error handling for production"
+          fi
+
+      - name: Validate physics constraints are active
+        run: |
+          # Ensure physics constraints are being applied
+          if ! grep -n "apply_physics_informed_filtering" app/enhanced_post_processing.py; then
+            echo "❌ Physics-informed filtering function missing"
+            exit 1
+          fi
+          
+          if ! grep -n "LANE_PHYSICS_CONSTRAINTS" app/enhanced_post_processing.py; then
+            echo "❌ Lane physics constraints missing"
+            exit 1
+          fi
+          
+          # Check that filtering is actually called in main inference pipeline
+          if ! grep -r "apply_physics_informed_filtering\|physics.*filter" app/; then
+            echo "⚠️ Physics filtering may not be integrated into main pipeline"
+          fi
+          
+          echo "✅ Physics constraints validation passed"
+
+      - name: Generate debug bypass report
+        run: |
+          echo "# Debug Bypass Detection Report" > debug_report.md
+          echo "Generated: $(date)" >> debug_report.md
+          echo "" >> debug_report.md
+          
+          echo "## Critical Issues Found" >> debug_report.md
+          if grep -n "debug_markings.*\[:10\]" app/enhanced_post_processing.py; then
+            echo "- ❌ Debug bypass in enhanced_post_processing.py line $(grep -n 'debug_markings.*\[:10\]' app/enhanced_post_processing.py | cut -d: -f1)" >> debug_report.md
+          else
+            echo "- ✅ No debug bypass found in enhanced_post_processing.py" >> debug_report.md
+          fi
+          
+          echo "" >> debug_report.md
+          echo "## Production Readiness Checklist" >> debug_report.md
+          echo "- [ ] Remove debug bypass from enhanced_post_processing.py:71-73" >> debug_report.md
+          echo "- [ ] Implement calibrated physics constraints for 1280x1280 imagery" >> debug_report.md
+          echo "- [ ] Add comprehensive unit tests" >> debug_report.md
+          echo "- [ ] Validate external imagery provider reliability" >> debug_report.md
+          echo "- [ ] Performance testing under concurrent load" >> debug_report.md
+          
+          cat debug_report.md
+
+      - name: Upload debug report
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-bypass-report
+          path: debug_report.md
+        if: always()

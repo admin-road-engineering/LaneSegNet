@@ -57,4 +57,26 @@ safetensors
 requests
 tqdm
 ftfy
-regex 
+regex
+
+# --- Testing Dependencies ---
+# Testing framework
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+pytest-xdist>=3.0.0  # Parallel test execution
+pytest-mock>=3.10.0
+
+# Test coverage reporting
+coverage[toml]>=7.0.0
+
+# Load testing for API endpoints  
+locust>=2.0.0
+
+# Test data generation
+factory-boy>=3.2.0
+faker>=18.0.0
+
+# HTTP testing
+httpx>=0.24.0
+aiofiles>=23.0.0 

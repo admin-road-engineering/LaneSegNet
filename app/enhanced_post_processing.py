@@ -16,24 +16,24 @@ logger = logging.getLogger(__name__)
 # Physics-informed constraints for lane markings
 LANE_PHYSICS_CONSTRAINTS = {
     # Lane width constraints (in pixels, varies with image resolution)
-    'min_lane_width': 2,    # Minimum lane marking width
-    'max_lane_width': 15,   # Maximum lane marking width
-    'typical_lane_width': [3, 4, 5, 6],  # Most common widths
+    'min_lane_width': 1,    # Minimum lane marking width (relaxed for high-res)
+    'max_lane_width': 50,   # Maximum lane marking width (increased for high-res)
+    'typical_lane_width': [2, 3, 4, 5, 6, 8, 10],  # More width options for high-res
     
     # Lane geometry constraints
-    'min_lane_length': 20,  # Minimum length for a valid lane marking
-    'max_curvature': 0.3,   # Maximum allowed curvature (rad/pixel)
-    'min_aspect_ratio': 3.0,  # Length/width ratio for line-like structures
+    'min_lane_length': 10,  # Minimum length for a valid lane marking (relaxed)
+    'max_curvature': 0.5,   # Maximum allowed curvature (relaxed)
+    'min_aspect_ratio': 1.5,  # Length/width ratio (relaxed for shorter segments)
     
     # Spatial relationship constraints
-    'min_lane_spacing': 50,   # Minimum distance between parallel lanes
-    'max_lane_spacing': 200,  # Maximum distance between parallel lanes
-    'parallel_tolerance': 15, # Angular tolerance for parallel detection (degrees)
+    'min_lane_spacing': 20,   # Minimum distance between parallel lanes (relaxed)
+    'max_lane_spacing': 400,  # Maximum distance (increased for high-res)
+    'parallel_tolerance': 25, # Angular tolerance (increased)
     
     # Color consistency constraints
-    'white_intensity_threshold': 200,  # Minimum intensity for white markings
-    'yellow_hue_range': (15, 35),     # HSV hue range for yellow markings
-    'color_consistency_threshold': 0.8, # Minimum color consistency within marking
+    'white_intensity_threshold': 150,  # Minimum intensity (relaxed for varying lighting)
+    'yellow_hue_range': (10, 40),     # HSV hue range (expanded)
+    'color_consistency_threshold': 0.6, # Minimum color consistency (relaxed)
 }
 
 def apply_physics_informed_filtering(lane_markings: List[Dict], image_shape: Tuple[int, int]) -> List[Dict]:
@@ -66,7 +66,86 @@ def apply_physics_informed_filtering(lane_markings: List[Dict], image_shape: Tup
     filtered_markings = validate_spatial_relationships(filtered_markings)
     
     logger.info(f"Physics-informed filtering: {len(lane_markings)} -> {len(filtered_markings)} markings")
+    
+    # If filtering is too aggressive, relax constraints and retry
+    if len(filtered_markings) == 0 and len(lane_markings) > 0:
+        logger.warning("Physics filtering removed all detections, applying relaxed constraints")
+        relaxed_markings = apply_relaxed_filtering(lane_markings, image_shape)
+        logger.info(f"Relaxed filtering: {len(lane_markings)} -> {len(relaxed_markings)} markings")
+        return relaxed_markings
+    
     return filtered_markings
+
+def apply_relaxed_filtering(lane_markings: List[Dict], image_shape: Tuple[int, int]) -> List[Dict]:
+    """
+    Apply more relaxed physics-informed constraints when normal filtering is too aggressive.
+    
+    Args:
+        lane_markings: List of detected lane markings
+        image_shape: (height, width) of the image
+        
+    Returns:
+        Filtered list with relaxed constraints
+    """
+    relaxed_markings = []
+    height, width = image_shape
+    
+    # Relaxed constraints for high-resolution imagery (1280x1280)
+    relaxed_constraints = {
+        'min_lane_length': 5,        # Very short segments allowed
+        'min_aspect_ratio': 1.0,     # Allow square-ish regions
+        'max_curvature': 1.0,        # Allow more curved segments
+        'min_lane_spacing': 10,      # Allow closer lane markings
+        'max_area_ratio': 0.2,       # Allow larger markings (20% of image)
+    }
+    
+    for marking in lane_markings:
+        # Basic geometric validation with relaxed constraints
+        if validate_relaxed_geometry(marking, relaxed_constraints):
+            # Basic size validation
+            area = marking.get('area', 0)
+            image_area = height * width
+            if 0 < area < relaxed_constraints['max_area_ratio'] * image_area:
+                relaxed_markings.append(marking)
+    
+    # If still no results, return top 5 markings by confidence/area
+    if len(relaxed_markings) == 0 and len(lane_markings) > 0:
+        logger.warning("Even relaxed filtering failed, returning top markings by area")
+        sorted_markings = sorted(lane_markings, 
+                               key=lambda x: x.get('area', 0) * x.get('confidence', 0.5), 
+                               reverse=True)
+        relaxed_markings = sorted_markings[:5]
+    
+    return relaxed_markings
+
+def validate_relaxed_geometry(marking: Dict, constraints: Dict) -> bool:
+    """
+    Validate geometry with relaxed constraints.
+    """
+    points = marking.get('points', [])
+    if len(points) < 2:
+        return False
+    
+    # Calculate total length
+    total_length = 0
+    for i in range(len(points) - 1):
+        dx = points[i+1][0] - points[i][0]
+        dy = points[i+1][1] - points[i][1]
+        total_length += np.sqrt(dx*dx + dy*dy)
+    
+    # Relaxed length constraint
+    if total_length < constraints['min_lane_length']:
+        return False
+    
+    # Relaxed aspect ratio
+    area = marking.get('area', 0)
+    if area > 0:
+        estimated_width = area / total_length
+        aspect_ratio = total_length / estimated_width
+        if aspect_ratio < constraints['min_aspect_ratio']:
+            return False
+    
+    return True
 
 def validate_lane_geometry(marking: Dict) -> bool:
     """

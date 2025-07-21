@@ -152,19 +152,173 @@ class MapboxProvider(ImageryProvider):
         
         return width, height
 
+class EsriSatelliteProvider(ImageryProvider):
+    """Esri World Imagery satellite provider (free, no API key required)."""
+    
+    def __init__(self, tile_server: str = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer"):
+        super().__init__()
+        self.tile_server = tile_server
+        # Esri World Imagery provides high-resolution satellite imagery:
+        # - 0.3m resolution for select metropolitan areas
+        # - 0.5m resolution across US and Western Europe
+        # - 1m resolution imagery worldwide
+    
+    def fetch_imagery(self, bounds: GeographicBounds, resolution_mpp: float) -> Tuple[np.ndarray, Dict[str, Any]]:
+        """Fetch high-resolution satellite imagery from Esri World Imagery."""
+        try:
+            # Calculate appropriate zoom level for the requested resolution
+            zoom_level = self._resolution_to_zoom(resolution_mpp, bounds)
+            
+            # Get tile bounds for the geographic area
+            tile_bounds = self._get_tile_bounds(bounds, zoom_level)
+            
+            # Download and stitch tiles together
+            image_array = self._download_and_stitch_tiles(tile_bounds, zoom_level)
+            
+            # Crop to exact bounds if needed
+            cropped_image = self._crop_to_bounds(image_array, bounds, tile_bounds)
+            
+            metadata = {
+                'source': 'Esri World Imagery',
+                'resolution_mpp': resolution_mpp,
+                'zoom_level': zoom_level,
+                'bounds': bounds,
+                'tile_server': self.tile_server,
+                'tiles_used': f"{tile_bounds['tiles_x']}x{tile_bounds['tiles_y']}",
+                'note': 'High-resolution satellite imagery from Esri (0.3m-1m resolution)'
+            }
+            
+            return cropped_image, metadata
+            
+        except Exception as e:
+            logger.error(f"Failed to fetch Esri satellite imagery: {e}")
+            raise
+    
+    def _resolution_to_zoom(self, resolution_mpp: float, bounds: GeographicBounds) -> int:
+        """Calculate appropriate zoom level for Esri satellite imagery."""
+        # Esri satellite imagery zoom levels for optimal resolution:
+        # Zoom 18: ~0.6m/pixel (metropolitan areas with 0.3m imagery)
+        # Zoom 17: ~1.2m/pixel (US/Europe with 0.5m imagery)
+        # Zoom 16: ~2.4m/pixel (worldwide 1m imagery)
+        lat_avg = (bounds.north + bounds.south) / 2
+        
+        # Adjust for latitude (tiles get smaller away from equator)
+        cos_lat = np.cos(np.radians(lat_avg))
+        
+        if resolution_mpp <= 0.3 * cos_lat:
+            return 19  # Maximum detail for metropolitan areas
+        elif resolution_mpp <= 0.6 * cos_lat:
+            return 18  # High detail
+        elif resolution_mpp <= 1.2 * cos_lat:
+            return 17  # US/Europe high resolution
+        elif resolution_mpp <= 2.4 * cos_lat:
+            return 16  # Worldwide 1m resolution
+        elif resolution_mpp <= 4.8 * cos_lat:
+            return 15
+        else:
+            return 14  # Lower detail for large areas
+    
+    def _deg2num(self, lat_deg: float, lon_deg: float, zoom: int) -> Tuple[int, int]:
+        """Convert lat/lon to tile numbers (standard Web Mercator)."""
+        lat_rad = np.radians(lat_deg)
+        n = 2.0 ** zoom
+        xtile = int((lon_deg + 180.0) / 360.0 * n)
+        ytile = int((1.0 - np.arcsinh(np.tan(lat_rad)) / np.pi) / 2.0 * n)
+        return (xtile, ytile)
+    
+    def _num2deg(self, xtile: int, ytile: int, zoom: int) -> Tuple[float, float]:
+        """Convert tile numbers to lat/lon (standard Web Mercator)."""
+        n = 2.0 ** zoom
+        lon_deg = xtile / n * 360.0 - 180.0
+        lat_rad = np.arctan(np.sinh(np.pi * (1 - 2 * ytile / n)))
+        lat_deg = np.degrees(lat_rad)
+        return (lat_deg, lon_deg)
+    
+    def _get_tile_bounds(self, bounds: GeographicBounds, zoom: int) -> Dict:
+        """Calculate which satellite tiles cover the requested area."""
+        # Get tile coordinates for corners
+        x_min, y_max = self._deg2num(bounds.south, bounds.west, zoom)  # Note: y is flipped
+        x_max, y_min = self._deg2num(bounds.north, bounds.east, zoom)
+        
+        return {
+            'x_min': x_min, 'x_max': x_max,
+            'y_min': y_min, 'y_max': y_max,
+            'tiles_x': x_max - x_min + 1,
+            'tiles_y': y_max - y_min + 1,
+            'zoom': zoom
+        }
+    
+    def _download_and_stitch_tiles(self, tile_bounds: Dict, zoom: int) -> np.ndarray:
+        """Download Esri satellite tiles and stitch them together."""
+        import requests
+        from PIL import Image
+        
+        tiles_x = tile_bounds['tiles_x']
+        tiles_y = tile_bounds['tiles_y']
+        
+        # Esri tiles are 256x256 pixels
+        tile_size = 256
+        full_width = tiles_x * tile_size
+        full_height = tiles_y * tile_size
+        
+        # Create output image
+        full_image = np.zeros((full_height, full_width, 3), dtype=np.uint8)
+        
+        # Download each tile
+        for dy in range(tiles_y):
+            for dx in range(tiles_x):
+                x_tile = tile_bounds['x_min'] + dx
+                y_tile = tile_bounds['y_min'] + dy
+                
+                try:
+                    # Esri World Imagery tile URL format
+                    tile_url = f"{self.tile_server}/tile/{zoom}/{y_tile}/{x_tile}"
+                    
+                    # Download tile with proper headers
+                    headers = {
+                        'User-Agent': 'LaneSegNet/1.0 (Infrastructure Analysis)',
+                        'Referer': 'https://www.arcgis.com/'
+                    }
+                    response = requests.get(tile_url, headers=headers, timeout=10)
+                    response.raise_for_status()
+                    
+                    # Load tile image
+                    tile_img = Image.open(io.BytesIO(response.content)).convert('RGB')
+                    tile_array = np.array(tile_img)
+                    
+                    # Place in full image
+                    y_start = dy * tile_size
+                    y_end = y_start + tile_size
+                    x_start = dx * tile_size  
+                    x_end = x_start + tile_size
+                    
+                    full_image[y_start:y_end, x_start:x_end] = tile_array
+                    
+                except Exception as e:
+                    logger.warning(f"Failed to download tile {x_tile},{y_tile}: {e}")
+                    # Leave as black/empty - continue with other tiles
+        
+        return full_image
+    
+    def _crop_to_bounds(self, image_array: np.ndarray, target_bounds: GeographicBounds, tile_bounds: Dict) -> np.ndarray:
+        """Crop the stitched image to exact geographic bounds."""
+        # For simplicity, return the full stitched image
+        # In production, this would do precise cropping to exact bounds
+        return image_array
+
 class OpenStreetMapProvider(ImageryProvider):
-    """OpenStreetMap tile server imagery provider (free, no API key required)."""
+    """OpenStreetMap street map provider (fallback for areas without satellite coverage)."""
     
     def __init__(self, tile_server: str = "https://tile.openstreetmap.org"):
         super().__init__()
         self.tile_server = tile_server
-        # Alternative OSM tile servers for better coverage:
+        # Alternative OSM tile servers:
         # https://a.tile.openstreetmap.org
         # https://b.tile.openstreetmap.org  
         # https://c.tile.openstreetmap.org
     
     def fetch_imagery(self, bounds: GeographicBounds, resolution_mpp: float) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """Fetch satellite/aerial imagery from OpenStreetMap tile servers."""
+        """Fetch street map imagery from OpenStreetMap (fallback option)."""
         try:
             # Calculate appropriate zoom level for the requested resolution
             zoom_level = self._resolution_to_zoom(resolution_mpp, bounds)
@@ -185,7 +339,7 @@ class OpenStreetMapProvider(ImageryProvider):
                 'bounds': bounds,
                 'tile_server': self.tile_server,
                 'tiles_used': f"{tile_bounds['tiles_x']}x{tile_bounds['tiles_y']}",
-                'note': 'Free OSM imagery - may not be high-resolution aerial'
+                'note': 'Street map imagery - not suitable for lane detection'
             }
             
             return cropped_image, metadata
@@ -197,7 +351,6 @@ class OpenStreetMapProvider(ImageryProvider):
     def _resolution_to_zoom(self, resolution_mpp: float, bounds: GeographicBounds) -> int:
         """Calculate appropriate OSM zoom level for requested resolution."""
         # OSM zoom levels: higher zoom = more detail
-        # At equator: zoom 18 ≈ 0.6m/pixel, zoom 16 ≈ 2.4m/pixel
         lat_avg = (bounds.north + bounds.south) / 2
         
         # Adjust for latitude (tiles get smaller away from equator)
@@ -215,7 +368,7 @@ class OpenStreetMapProvider(ImageryProvider):
             return 14  # Lower detail for large areas
     
     def _deg2num(self, lat_deg: float, lon_deg: float, zoom: int) -> Tuple[int, int]:
-        """Convert lat/lon to OSM tile numbers."""
+        """Convert lat/lon to tile numbers."""
         lat_rad = np.radians(lat_deg)
         n = 2.0 ** zoom
         xtile = int((lon_deg + 180.0) / 360.0 * n)
@@ -223,7 +376,7 @@ class OpenStreetMapProvider(ImageryProvider):
         return (xtile, ytile)
     
     def _num2deg(self, xtile: int, ytile: int, zoom: int) -> Tuple[float, float]:
-        """Convert OSM tile numbers to lat/lon."""
+        """Convert tile numbers to lat/lon."""
         n = 2.0 ** zoom
         lon_deg = xtile / n * 360.0 - 180.0
         lat_rad = np.arctan(np.sinh(np.pi * (1 - 2 * ytile / n)))
@@ -231,7 +384,7 @@ class OpenStreetMapProvider(ImageryProvider):
         return (lat_deg, lon_deg)
     
     def _get_tile_bounds(self, bounds: GeographicBounds, zoom: int) -> Dict:
-        """Calculate which OSM tiles cover the requested area."""
+        """Calculate which tiles cover the requested area."""
         # Get tile coordinates for corners
         x_min, y_max = self._deg2num(bounds.south, bounds.west, zoom)  # Note: y is flipped
         x_max, y_min = self._deg2num(bounds.north, bounds.east, zoom)
@@ -352,25 +505,29 @@ class ImageryAcquisitionManager:
     
     def _setup_providers(self):
         """Initialize available imagery providers."""
-        # OpenStreetMap (Free, no API key required)
-        self.providers['osm'] = OpenStreetMapProvider()
+        # Esri World Imagery (Free satellite imagery, no API key required)
+        self.providers['esri_satellite'] = EsriSatelliteProvider()
+        
+        # Mapbox Satellite
+        mapbox_key = os.getenv('MAPBOX_API_KEY')
+        if mapbox_key:
+            self.providers['mapbox'] = MapboxProvider(mapbox_key)
         
         # Google Earth Engine
         gee_key = os.getenv('GOOGLE_EARTH_ENGINE_API_KEY')
         if gee_key:
             self.providers['gee'] = GoogleEarthEngineProvider(gee_key)
         
-        # Mapbox
-        mapbox_key = os.getenv('MAPBOX_API_KEY')
-        if mapbox_key:
-            self.providers['mapbox'] = MapboxProvider(mapbox_key)
-        
         # Local imagery (for development) - use existing data/imgs directory
         local_dir = os.getenv('LOCAL_IMAGERY_DIR', 'data/imgs')
         if os.path.exists(local_dir):
             self.providers['local'] = LocalImageryProvider(local_dir)
         
+        # OpenStreetMap (Free street maps - fallback only)
+        self.providers['osm'] = OpenStreetMapProvider()
+        
         logger.info(f"Initialized imagery providers: {list(self.providers.keys())}")
+        logger.info("Priority order: Esri Satellite -> Mapbox -> Google Earth Engine -> Local -> OSM (fallback)")
     
     async def acquire_imagery(self, bounds: GeographicBounds, resolution_mpp: float, 
                              preferred_provider: Optional[str] = None) -> Dict[str, Any]:
@@ -411,8 +568,8 @@ class ImageryAcquisitionManager:
             except Exception as e:
                 logger.warning(f"Preferred provider {preferred_provider} failed: {e}")
         
-        # Fallback order: OSM -> GEE -> Mapbox -> Local
-        provider_order = ['osm', 'gee', 'mapbox', 'local']
+        # Fallback order: Satellite imagery first, then street maps as last resort
+        provider_order = ['esri_satellite', 'mapbox', 'gee', 'local', 'osm']
         
         for provider_name in provider_order:
             if provider_name in self.providers:

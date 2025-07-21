@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
-from typing import List, Tuple, Optional, Dict, Literal
+from typing import List, Tuple, Optional, Dict, Literal, Union
 from enum import Enum
+from fastapi import UploadFile
 
 class InfrastructureType(str, Enum):
     """Enumeration of road infrastructure types."""
@@ -17,6 +18,23 @@ class GeographicBounds(BaseModel):
     south: float = Field(..., description="Southern boundary latitude") 
     east: float = Field(..., description="Eastern boundary longitude")
     west: float = Field(..., description="Western boundary longitude")
+
+class AnalysisRequest(BaseModel):
+    """Base class for analysis requests."""
+    analysis_type: str = Field(default="comprehensive", description="Type of analysis: 'lane_markings', 'pavements', 'comprehensive'")
+    resolution: float = Field(default=0.1, description="Desired resolution in meters per pixel (0.05-2.0)")
+    model_type: str = Field(default="swin", description="Model type: 'swin', 'lanesegnet'")
+    visualize: bool = Field(default=False, description="Whether to return visualization instead of JSON")
+
+class CoordinateAnalysisRequest(AnalysisRequest):
+    """Request schema for coordinate-based analysis."""
+    coordinates: GeographicBounds = Field(..., description="Geographic bounding box for analysis")
+
+class ImageAnalysisRequest(AnalysisRequest):
+    """Request schema for image-based analysis."""
+    # Note: image file will be passed separately as UploadFile in the endpoint
+    coordinates: Optional[GeographicBounds] = Field(None, description="Optional coordinates for geo-referencing results")
+    image_source: Optional[str] = Field(None, description="Source/description of the provided image")
 
 class GeographicPoint(BaseModel):
     """Geographic coordinate point."""

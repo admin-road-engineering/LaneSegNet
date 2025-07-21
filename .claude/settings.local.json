@@ -18,7 +18,13 @@
       "Bash(taskkill:*)",
       "Bash(bash:*)",
       "Bash(docker build:*)",
-      "Bash(docker:*)"
+      "Bash(docker:*)",
+      "Bash(timeout 30 docker logs -f 7107efee5ed5)",
+      "Bash(timeout 30 docker logs -f 6a2242000fb1)",
+      "Bash(timeout 20 docker logs -f 5c09056761e4)",
+      "Bash(timeout 15 docker logs -f 056463707ecd)",
+      "Bash(find:*)",
+      "Bash(wc:*)"
     ],
     "deny": []
   }

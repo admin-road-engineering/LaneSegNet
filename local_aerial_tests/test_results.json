@@ -1,0 +1,191 @@
+{
+  "timestamp": "2025-07-21 08:18:47",
+  "total_images_tested": 5,
+  "results": {
+    "30000775.jpg": {
+      "analysis": {
+        "status": "success",
+        "processing_time_ms": 1451.258897781372,
+        "elements_count": 0,
+        "classes": {},
+        "lane_length_m": 0.0,
+        "image_size": "512x512",
+        "source": "Esri World Imagery"
+      },
+      "visualizations": {
+        "original": {
+          "status": "success",
+          "processing_time_ms": 729.2938232421875,
+          "file_size_kb": 118.373046875,
+          "output_file": "30000775_original.jpg"
+        },
+        "annotated": {
+          "status": "success",
+          "processing_time_ms": 702.6691436767578,
+          "file_size_kb": 13.115234375,
+          "output_file": "30000775_annotated.jpg"
+        },
+        "overlay": {
+          "status": "success",
+          "processing_time_ms": 717.2338962554932,
+          "file_size_kb": 118.3271484375,
+          "output_file": "30000775_overlay.jpg"
+        },
+        "side_by_side": {
+          "status": "success",
+          "processing_time_ms": 721.0471630096436,
+          "file_size_kb": 234.853515625,
+          "output_file": "30000775_side_by_side.jpg"
+        }
+      }
+    },
+    "00001526.jpg": {
+      "analysis": {
+        "status": "success",
+        "processing_time_ms": 677.922248840332,
+        "elements_count": 0,
+        "classes": {},
+        "lane_length_m": 0.0,
+        "image_size": "512x512",
+        "source": "Esri World Imagery"
+      },
+      "visualizations": {
+        "original": {
+          "status": "success",
+          "processing_time_ms": 695.4071521759033,
+          "file_size_kb": 118.3896484375,
+          "output_file": "00001526_original.jpg"
+        },
+        "annotated": {
+          "status": "success",
+          "processing_time_ms": 712.4710083007812,
+          "file_size_kb": 13.1201171875,
+          "output_file": "00001526_annotated.jpg"
+        },
+        "overlay": {
+          "status": "success",
+          "processing_time_ms": 694.1475868225098,
+          "file_size_kb": 118.3740234375,
+          "output_file": "00001526_overlay.jpg"
+        },
+        "side_by_side": {
+          "status": "success",
+          "processing_time_ms": 767.2138214111328,
+          "file_size_kb": 234.8046875,
+          "output_file": "00001526_side_by_side.jpg"
+        }
+      }
+    },
+    "60002224.jpg": {
+      "analysis": {
+        "status": "success",
+        "processing_time_ms": 681.9851398468018,
+        "elements_count": 0,
+        "classes": {},
+        "lane_length_m": 0.0,
+        "image_size": "512x512",
+        "source": "Esri World Imagery"
+      },
+      "visualizations": {
+        "original": {
+          "status": "success",
+          "processing_time_ms": 710.4980945587158,
+          "file_size_kb": 118.2353515625,
+          "output_file": "60002224_original.jpg"
+        },
+        "annotated": {
+          "status": "success",
+          "processing_time_ms": 707.3187828063965,
+          "file_size_kb": 13.1083984375,
+          "output_file": "60002224_annotated.jpg"
+        },
+        "overlay": {
+          "status": "success",
+          "processing_time_ms": 705.0235271453857,
+          "file_size_kb": 118.3740234375,
+          "output_file": "60002224_overlay.jpg"
+        },
+        "side_by_side": {
+          "status": "success",
+          "processing_time_ms": 747.941255569458,
+          "file_size_kb": 234.779296875,
+          "output_file": "60002224_side_by_side.jpg"
+        }
+      }
+    },
+    "60001216.jpg": {
+      "analysis": {
+        "status": "success",
+        "processing_time_ms": 688.4195804595947,
+        "elements_count": 0,
+        "classes": {},
+        "lane_length_m": 0.0,
+        "image_size": "512x512",
+        "source": "Esri World Imagery"
+      },
+      "visualizations": {
+        "original": {
+          "status": "success",
+          "processing_time_ms": 703.4404277801514,
+          "file_size_kb": 118.3154296875,
+          "output_file": "60001216_original.jpg"
+        },
+        "annotated": {
+          "status": "success",
+          "processing_time_ms": 686.5830421447754,
+          "file_size_kb": 13.083984375,
+          "output_file": "60001216_annotated.jpg"
+        },
+        "overlay": {
+          "status": "success",
+          "processing_time_ms": 737.2381687164307,
+          "file_size_kb": 118.3349609375,
+          "output_file": "60001216_overlay.jpg"
+        },
+        "side_by_side": {
+          "status": "success",
+          "processing_time_ms": 724.1551876068115,
+          "file_size_kb": 234.83984375,
+          "output_file": "60001216_side_by_side.jpg"
+        }
+      }
+    },
+    "00000229.jpg": {
+      "analysis": {
+        "status": "success",
+        "processing_time_ms": 674.0696430206299,
+        "elements_count": 0,
+        "classes": {},
+        "lane_length_m": 0.0,
+        "image_size": "512x512",
+        "source": "Esri World Imagery"
+      },
+      "visualizations": {
+        "original": {
+          "status": "success",
+          "processing_time_ms": 727.5230884552002,
+          "file_size_kb": 118.2998046875,
+          "output_file": "00000229_original.jpg"
+        },
+        "annotated": {
+          "status": "success",
+          "processing_time_ms": 692.3575401306152,
+          "file_size_kb": 13.03515625,
+          "output_file": "00000229_annotated.jpg"
+        },
+        "overlay": {
+          "status": "success",
+          "processing_time_ms": 733.0400943756104,
+          "file_size_kb": 118.2802734375,
+          "output_file": "00000229_overlay.jpg"
+        },
+        "side_by_side": {
+          "status": "success",
+          "processing_time_ms": 753.2596588134766,
+          "file_size_kb": 234.8427734375,
+          "output_file": "00000229_side_by_side.jpg"
+        }
+      }
+    }
+  }
+}

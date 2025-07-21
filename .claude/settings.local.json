@@ -24,7 +24,9 @@
       "Bash(timeout 20 docker logs -f 5c09056761e4)",
       "Bash(timeout 15 docker logs -f 056463707ecd)",
       "Bash(find:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(mkdir:*)",
+      "Bash(head:*)"
     ],
     "deny": []
   }

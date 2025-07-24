@@ -1,0 +1,26 @@
+{
+  "dataset_info": {
+    "total_samples": 7817,
+    "train_samples": 5471,
+    "val_samples": 782,
+    "test_samples": 1564,
+    "split_ratios": {
+      "train": 0.6998848663170014,
+      "val": 0.10003837789433287,
+      "test": 0.20007675578866574
+    }
+  },
+  "directory_structure": {
+    "base_path": "data\\full_ael_mmseg",
+    "img_dir": "data\\full_ael_mmseg\\img_dir",
+    "ann_dir": "data\\full_ael_mmseg\\ann_dir"
+  },
+  "comparison_with_current": {
+    "current_train": 5471,
+    "current_val": 1328,
+    "new_train": 5471,
+    "new_val": 782,
+    "improvement_train": "0%",
+    "improvement_val": "-41%"
+  }
+}

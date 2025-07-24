@@ -1,0 +1,34 @@
+{
+  "Australia_latest_2025_07_22_22_52.png": {
+    "total_pixels": 262144,
+    "background_pixels": 261867,
+    "white_solid_pixels": 94,
+    "white_dashed_pixels": 183,
+    "background_percentage": 99.89433288574219,
+    "white_solid_percentage": 0.035858154296875,
+    "white_dashed_percentage": 0.0698089599609375,
+    "total_lane_percentage": 0.1056671142578125,
+    "max_lane_confidence": 0.9994908571243286,
+    "mean_lane_confidence": 0.0013646668521687388,
+    "lane_pixels_detected": 277,
+    "image_name": "Australia_latest_2025_07_22_22_52.png",
+    "model_info": "85.1% mIoU Premium Model",
+    "timestamp": "20250722_225812"
+  },
+  "Australia_latest_2025_07_22_22_57.png": {
+    "total_pixels": 262144,
+    "background_pixels": 258312,
+    "white_solid_pixels": 1865,
+    "white_dashed_pixels": 1967,
+    "background_percentage": 98.5382080078125,
+    "white_solid_percentage": 0.7114410400390625,
+    "white_dashed_percentage": 0.7503509521484375,
+    "total_lane_percentage": 1.4617919921875,
+    "max_lane_confidence": 0.9999125003814697,
+    "mean_lane_confidence": 0.014926385134458542,
+    "lane_pixels_detected": 3832,
+    "image_name": "Australia_latest_2025_07_22_22_57.png",
+    "model_info": "85.1% mIoU Premium Model",
+    "timestamp": "20250722_225813"
+  }
+}

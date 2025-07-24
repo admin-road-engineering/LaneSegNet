@@ -1,0 +1,52 @@
+{
+  "source": "OpenStreetMap Tiles",
+  "collection_date": "2025-07-24 02:18:28",
+  "total_target": 1000,
+  "total_collected": 1000,
+  "collection_rate": "100.0%",
+  "zoom_level": 17,
+  "cities": {
+    "london": {
+      "collected": 200,
+      "target": 200,
+      "rate": "100.0%"
+    },
+    "paris": {
+      "collected": 150,
+      "target": 150,
+      "rate": "100.0%"
+    },
+    "berlin": {
+      "collected": 150,
+      "target": 150,
+      "rate": "100.0%"
+    },
+    "madrid": {
+      "collected": 120,
+      "target": 120,
+      "rate": "100.0%"
+    },
+    "rome": {
+      "collected": 120,
+      "target": 120,
+      "rate": "100.0%"
+    },
+    "amsterdam": {
+      "collected": 100,
+      "target": 100,
+      "rate": "100.0%"
+    },
+    "barcelona": {
+      "collected": 80,
+      "target": 80,
+      "rate": "100.0%"
+    },
+    "vienna": {
+      "collected": 80,
+      "target": 80,
+      "rate": "100.0%"
+    }
+  },
+  "attribution": "Map data (c) OpenStreetMap contributors",
+  "usage": "Academic research - self-supervised pre-training"
+}

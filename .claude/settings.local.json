@@ -26,7 +26,27 @@
       "Bash(find:*)",
       "Bash(wc:*)",
       "Bash(mkdir:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(mv:*)",
+      "Bash(move \"DOCKER_BUILD_STATUS.md\" \"docs/reports/DOCKER_BUILD_STATUS.md\")",
+      "Bash(move \"DOCKER_DEPLOYMENT_GUIDE.md\" \"docs/reports/DOCKER_DEPLOYMENT_GUIDE.md\")",
+      "Bash(move \"DOCKER_VALIDATION_SUCCESS.md\" \"docs/reports/DOCKER_VALIDATION_SUCCESS.md\")",
+      "Bash(move \"MODEL_PERFORMANCE_ASSESSMENT.md\" \"docs/reports/MODEL_PERFORMANCE_ASSESSMENT.md\")",
+      "Bash(move \"PHASE2_PERFORMANCE_REPORT.md\" \"docs/reports/PHASE2_PERFORMANCE_REPORT.md\")",
+      "Bash(move \"VALIDATION_REPORT.md\" \"docs/reports/VALIDATION_REPORT.md\")",
+      "Bash(copy:*)",
+      "Bash(cp:*)",
+      "Bash(__NEW_LINE__ echo \"Verifying checkpoint...\")",
+      "Bash(touch:*)",
+      "Bash(call .venvScriptsactivate.bat)",
+      "Bash(.venv/Scripts/python.exe scripts/comprehensive_audit.py:*)",
+      "Bash(.venv/Scripts/python.exe scripts/test_all_backup_models.py:*)",
+      "Bash(.venv/Scripts/python.exe scripts/test_backup_models_auto.py:*)",
+      "Bash(.venv/Scripts/python.exe scripts/gentle_post_processing.py:*)",
+      "Bash(.venv/Scripts/python.exe scripts/cleanup_project.py:*)",
+      "Bash(.venv/Scripts/python.exe scripts/analyze_miou_discrepancy.py:*)",
+      "Bash(powershell:*)",
+      "Bash(echo \"$((27356 / 5))\")"
     ],
     "deny": []
   }

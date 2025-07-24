@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-07-23 11:31:56",
+  "results": {
+    "Primary Model": {
+      "epoch": 49,
+      "reported_miou": 0.8514525294667468,
+      "file_hash": "cf8a051f5b15a2e91e6c8e049071d7d0",
+      "loading_success": true
+    },
+    "validation_sample": {
+      "avg_miou": 0.8015661451925242,
+      "std_miou": 0.09024151030373587,
+      "avg_lane_pred": 0.045800399780273435,
+      "avg_lane_gt": 0.04298820495605469
+    }
+  },
+  "issues": [
+    {
+      "severity": "CRITICAL",
+      "category": "MODEL",
+      "description": "Backup Model not found at model_backups/epoch50_final_masterpiece_20250722_194650/premium_gpu_best_model.pth",
+      "timestamp": "2025-07-23 11:31:54"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "TRAINING",
+      "description": "No training logs found for analysis",
+      "timestamp": "2025-07-23 11:31:56"
+    },
+    {
+      "severity": "LOW",
+      "category": "TRAINING",
+      "description": "No tensorboard logs found",
+      "timestamp": "2025-07-23 11:31:56"
+    }
+  ],
+  "summary": {
+    "total_issues": 3,
+    "critical_issues": 1,
+    "high_issues": 0
+  }
+}

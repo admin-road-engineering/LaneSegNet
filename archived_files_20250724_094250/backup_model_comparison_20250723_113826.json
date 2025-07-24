@@ -1,0 +1,375 @@
+{
+  "timestamp": "2025-07-23 11:38:26",
+  "test_samples": 100,
+  "results": [
+    {
+      "model_path": "work_dirs\\premium_gpu_best_model.pth",
+      "model_name": "premium_gpu_best_model.pth",
+      "epoch": 49,
+      "reported_miou": 0.8514525294667468,
+      "actual_miou": 0.7840349773735268,
+      "lane_miou": 0.6852397599120681,
+      "discrepancy": 6.7417552093219975,
+      "class_ious": [
+        0.9816254122964442,
+        0.705318990582608,
+        0.665160529241528
+      ],
+      "pred_lane_coverage": 0.05086843784038837,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 6.977475166320801,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch50_final_masterpiece_20250722_194650\\premium_gpu_best_model_EPOCH50_FINAL_MASTERPIECE.pth",
+      "model_name": "premium_gpu_best_model_EPOCH50_FINAL_MASTERPIECE.pth",
+      "epoch": 49,
+      "reported_miou": 0.8514525294667468,
+      "actual_miou": 0.7840349773735268,
+      "lane_miou": 0.6852397599120681,
+      "discrepancy": 6.7417552093219975,
+      "class_ious": [
+        0.9816254122964442,
+        0.705318990582608,
+        0.665160529241528
+      ],
+      "pred_lane_coverage": 0.05086843784038837,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.400185823440552,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch48_sustained_excellence_20250722_192649\\premium_gpu_best_model_EPOCH48_SUSTAINED.pth",
+      "model_name": "premium_gpu_best_model_EPOCH48_SUSTAINED.pth",
+      "epoch": 47,
+      "reported_miou": 0.8493214790812085,
+      "actual_miou": 0.7818739594608233,
+      "lane_miou": 0.6821660187971694,
+      "discrepancy": 6.74475196203852,
+      "class_ious": [
+        0.981289840788131,
+        0.698490445071707,
+        0.6658415925226319
+      ],
+      "pred_lane_coverage": 0.05195698371300331,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.344873666763306,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch46_85_percent_milestone_20250722_191631\\premium_gpu_best_model_EPOCH46_85PERCENT.pth",
+      "model_name": "premium_gpu_best_model_EPOCH46_85PERCENT.pth",
+      "epoch": 45,
+      "reported_miou": 0.8496341207798036,
+      "actual_miou": 0.7830149929777793,
+      "lane_miou": 0.6837035256136516,
+      "discrepancy": 6.661912780202428,
+      "class_ious": [
+        0.981637927706035,
+        0.7009343937171859,
+        0.6664726575101172
+      ],
+      "pred_lane_coverage": 0.05045535014225887,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.436190366744995,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch45_ultimate_breakthrough_20250722_191123\\premium_gpu_best_model_EPOCH45_ULTIMATE.pth",
+      "model_name": "premium_gpu_best_model_EPOCH45_ULTIMATE.pth",
+      "epoch": 44,
+      "reported_miou": 0.8479919612499545,
+      "actual_miou": 0.7729026172246094,
+      "lane_miou": 0.669082243623216,
+      "discrepancy": 7.508934402534506,
+      "class_ious": [
+        0.980543364427396,
+        0.6849928032070983,
+        0.6531716840393338
+      ],
+      "pred_lane_coverage": 0.050362000098595254,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.6463623046875,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch43_world_breakthrough_20250722_190134\\premium_gpu_best_model_EPOCH43_BREAKTHROUGH.pth",
+      "model_name": "premium_gpu_best_model_EPOCH43_BREAKTHROUGH.pth",
+      "epoch": 42,
+      "reported_miou": 0.845436409061927,
+      "actual_miou": 0.7743693037554685,
+      "lane_miou": 0.6712364464715093,
+      "discrepancy": 7.106710530645843,
+      "class_ious": [
+        0.9806350183233871,
+        0.6888723313519337,
+        0.6536005615910847
+      ],
+      "pred_lane_coverage": 0.051564473372239336,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.35826563835144,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch40_new_record_20250722_184450\\premium_gpu_best_model_EPOCH40_RECORD.pth",
+      "model_name": "premium_gpu_best_model_EPOCH40_RECORD.pth",
+      "epoch": 39,
+      "reported_miou": 0.8390439748139941,
+      "actual_miou": 0.7710107632520801,
+      "lane_miou": 0.6661528991917183,
+      "discrepancy": 6.8033211561914,
+      "class_ious": [
+        0.9807264913728037,
+        0.6852459968904775,
+        0.6470598014929592
+      ],
+      "pred_lane_coverage": 0.04989477304311899,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.524968862533569,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch39_full_recovery_20250722_184340\\premium_gpu_best_model_EPOCH39_RECOVERY.pth",
+      "model_name": "premium_gpu_best_model_EPOCH39_RECOVERY.pth",
+      "epoch": 38,
+      "reported_miou": 0.8372825225677238,
+      "actual_miou": 0.7642869097518465,
+      "lane_miou": 0.6566354186556835,
+      "discrepancy": 7.29956128158773,
+      "class_ious": [
+        0.9795898919441727,
+        0.6685837491794763,
+        0.6446870881318908
+      ],
+      "pred_lane_coverage": 0.05075773826012245,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.532105207443237,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch30_sustained_peak_20250722_175508\\premium_gpu_best_model_EPOCH30_SUSTAINED.pth",
+      "model_name": "premium_gpu_best_model_EPOCH30_SUSTAINED.pth",
+      "epoch": 29,
+      "reported_miou": 0.8371168780548897,
+      "actual_miou": 0.7726176098000884,
+      "lane_miou": 0.6686863692487888,
+      "discrepancy": 6.449926825480123,
+      "class_ious": [
+        0.9804800909026877,
+        0.6862933050591322,
+        0.6510794334384454
+      ],
+      "pred_lane_coverage": 0.051059759580172025,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.509636402130127,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch29_optimal_performance_20250722_175254\\premium_gpu_best_model_EPOCH29_OPTIMAL.pth",
+      "model_name": "premium_gpu_best_model_EPOCH29_OPTIMAL.pth",
+      "epoch": 28,
+      "reported_miou": 0.8368277675337751,
+      "actual_miou": 0.7721340038304477,
+      "lane_miou": 0.6679809992185808,
+      "discrepancy": 6.469376370332736,
+      "class_ious": [
+        0.9804400130541817,
+        0.6852938390800557,
+        0.6506681593571059
+      ],
+      "pred_lane_coverage": 0.050963328434870794,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.588828086853027,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch28_new_peak_20250722_174516\\premium_gpu_best_model_EPOCH28_837.pth",
+      "model_name": "premium_gpu_best_model_EPOCH28_837.pth",
+      "epoch": 27,
+      "reported_miou": 0.8365907654539528,
+      "actual_miou": 0.7715799014872552,
+      "lane_miou": 0.6671758764061397,
+      "discrepancy": 6.5010863966697645,
+      "class_ious": [
+        0.980387951649486,
+        0.6854423286793025,
+        0.648909424132977
+      ],
+      "pred_lane_coverage": 0.05105157998891977,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.387971878051758,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch27_stable_peak_20250722_173943\\premium_gpu_best_model_EPOCH27_STABLE.pth",
+      "model_name": "premium_gpu_best_model_EPOCH27_STABLE.pth",
+      "epoch": 26,
+      "reported_miou": 0.8340368795190927,
+      "actual_miou": 0.7671928350141863,
+      "lane_miou": 0.6608010417260202,
+      "discrepancy": 6.684404450490633,
+      "class_ious": [
+        0.9799764215905188,
+        0.6787081588012165,
+        0.6428939246508237
+      ],
+      "pred_lane_coverage": 0.050781543438251205,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.381775140762329,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch26_major_breakthrough_20250722_173511\\premium_gpu_best_model_EPOCH26_834.pth",
+      "model_name": "premium_gpu_best_model_EPOCH26_834.pth",
+      "epoch": 25,
+      "reported_miou": 0.833656724013526,
+      "actual_miou": 0.7711800590505411,
+      "lane_miou": 0.6666046527734251,
+      "discrepancy": 6.247666496298487,
+      "class_ious": [
+        0.9803308716047732,
+        0.6853109306157976,
+        0.6478983749310524
+      ],
+      "pred_lane_coverage": 0.05111239506648137,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.488023519515991,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch25_world_record_20250722_173309\\premium_gpu_best_model_EPOCH25_WORLD_RECORD.pth",
+      "model_name": "premium_gpu_best_model_EPOCH25_WORLD_RECORD.pth",
+      "epoch": 24,
+      "reported_miou": 0.8283098370746076,
+      "actual_miou": 0.7610295177577721,
+      "lane_miou": 0.6518634314645624,
+      "discrepancy": 6.728031931683553,
+      "class_ious": [
+        0.9793616903441914,
+        0.6692604122515992,
+        0.6344664506775256
+      ],
+      "pred_lane_coverage": 0.050997147193321817,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.388595104217529,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch24_new_peak_20250722_172636\\premium_gpu_best_model_EPOCH24_827.pth",
+      "model_name": "premium_gpu_best_model_EPOCH24_827.pth",
+      "epoch": 23,
+      "reported_miou": 0.8272080112205552,
+      "actual_miou": 0.7601695388333188,
+      "lane_miou": 0.6504989861568925,
+      "discrepancy": 6.703847238723637,
+      "class_ious": [
+        0.9795106441861715,
+        0.6719538735535086,
+        0.6290440987602764
+      ],
+      "pred_lane_coverage": 0.05026989716749925,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.620028972625732,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch23_industry_peak_20250722_172042\\premium_gpu_best_model_EPOCH23_PEAK.pth",
+      "model_name": "premium_gpu_best_model_EPOCH23_PEAK.pth",
+      "epoch": 22,
+      "reported_miou": 0.8245733928247623,
+      "actual_miou": 0.7554221291221032,
+      "lane_miou": 0.6437284181564078,
+      "discrepancy": 6.915126370265911,
+      "class_ious": [
+        0.9788095510534938,
+        0.667249187562068,
+        0.6202076487507477
+      ],
+      "pred_lane_coverage": 0.05141749748816857,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.368253946304321,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "model_backups\\epoch20_production_ready_20250722_170456\\premium_gpu_best_model_PRODUCTION.pth",
+      "model_name": "premium_gpu_best_model_PRODUCTION.pth",
+      "epoch": 19,
+      "reported_miou": 0.8191112195730692,
+      "actual_miou": 0.7484134156527199,
+      "lane_miou": 0.6334946464256751,
+      "discrepancy": 7.0697803920349305,
+      "class_ious": [
+        0.9782509541068095,
+        0.6555680259383964,
+        0.6114212669129538
+      ],
+      "pred_lane_coverage": 0.051386246314415567,
+      "gt_lane_coverage": 0.04814819189218374,
+      "test_time": 4.36832332611084,
+      "samples_tested": 104,
+      "loading_success": true
+    },
+    {
+      "model_path": "work_dirs\\gpu_balanced_best_model.pth",
+      "model_name": "gpu_balanced_best_model.pth",
+      "loading_success": false,
+      "error": "'model_state_dict'",
+      "actual_miou": 0,
+      "discrepancy": Infinity
+    },
+    {
+      "model_path": "work_dirs\\balanced_best_model.pth",
+      "model_name": "balanced_best_model.pth",
+      "loading_success": false,
+      "error": "'model_state_dict'",
+      "actual_miou": 0,
+      "discrepancy": Infinity
+    },
+    {
+      "model_path": "work_dirs\\enhanced_best_model.pth",
+      "model_name": "enhanced_best_model.pth",
+      "loading_success": false,
+      "error": "'model_state_dict'",
+      "actual_miou": 0,
+      "discrepancy": Infinity
+    },
+    {
+      "model_path": "work_dirs\\best_model.pth",
+      "model_name": "best_model.pth",
+      "loading_success": false,
+      "error": "'model_state_dict'",
+      "actual_miou": 0,
+      "discrepancy": Infinity
+    },
+    {
+      "model_path": "weights\\best.pth",
+      "model_name": "best.pth",
+      "loading_success": false,
+      "error": "'model_state_dict'",
+      "actual_miou": 0,
+      "discrepancy": Infinity
+    }
+  ],
+  "best_model": "work_dirs\\premium_gpu_best_model.pth",
+  "summary": {
+    "total_tested": 22,
+    "successful": 17,
+    "failed": 5
+  }
+}

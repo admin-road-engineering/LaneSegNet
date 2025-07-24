@@ -1,0 +1,16 @@
+{
+  "total_pixels": 262144,
+  "background_pixels": 250459,
+  "white_solid_pixels": 5761,
+  "white_dashed_pixels": 5924,
+  "background_percentage": 95.54252624511719,
+  "white_solid_percentage": 2.1976470947265625,
+  "white_dashed_percentage": 2.25982666015625,
+  "total_lane_percentage": 4.4574737548828125,
+  "max_lane_confidence": 0.9999029636383057,
+  "mean_lane_confidence": 0.04486587643623352,
+  "lane_pixels_detected": 11685,
+  "image_name": "Australia_latest_2025_07_22_23_04.png",
+  "model_info": "85.1% mIoU Premium Model",
+  "timestamp": "20250722_230702"
+}

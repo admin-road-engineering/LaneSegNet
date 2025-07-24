@@ -1,0 +1,16 @@
+{
+  "total_pixels": 262144,
+  "background_pixels": 248058,
+  "white_solid_pixels": 4716,
+  "white_dashed_pixels": 9370,
+  "background_percentage": 94.62661743164062,
+  "white_solid_percentage": 1.79901123046875,
+  "white_dashed_percentage": 3.574371337890625,
+  "total_lane_percentage": 5.373382568359375,
+  "max_lane_confidence": 0.9999898076057434,
+  "mean_lane_confidence": 0.0539812371134758,
+  "lane_pixels_detected": 14086,
+  "image_name": "test_60002475.jpg",
+  "model_info": "85.1% mIoU Premium Model",
+  "timestamp": "20250722_230658"
+}

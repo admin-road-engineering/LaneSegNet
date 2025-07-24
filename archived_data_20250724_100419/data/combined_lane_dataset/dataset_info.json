@@ -1,0 +1,29 @@
+{
+  "dataset_name": "Combined Lane Detection Dataset",
+  "version": "1.0",
+  "description": "Combined dataset from AEL, SS_Dense, and SS_Multi_Lane for improved lane detection",
+  "classes": {
+    "0": "background",
+    "1": "white_solid_lane",
+    "2": "white_dashed_lane"
+  },
+  "datasets_included": [
+    "AEL",
+    "SS_Dense",
+    "SS_Multi_Lane"
+  ],
+  "total_samples": 5491,
+  "samples_per_dataset": {
+    "AEL": 5471,
+    "SS_Dense": 10,
+    "SS_Multi_Lane": 10
+  },
+  "splits": {
+    "train": "70%",
+    "val": "15%",
+    "test": "15%"
+  },
+  "train_samples": 3849,
+  "val_samples": 820,
+  "test_samples": 822
+}

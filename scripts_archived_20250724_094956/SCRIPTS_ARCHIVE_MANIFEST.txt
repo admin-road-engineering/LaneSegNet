@@ -1,0 +1,71 @@
+Scripts Archive - 2025-07-24T09:49:56.687219
+==================================================
+
+ARCHIVED SCRIPTS:
+- advanced_augment.py
+- analyze_miou_discrepancy.py
+- balanced_eval.py
+- balanced_monitor.py
+- balanced_train.py
+- bayesian_tuner.py
+- check_collection_status.py
+- cleanup_project.py
+- combined_dataset_train.py
+- comprehensive_audit.py
+- create_finetune_data.py
+- download_osm_tiles.py
+- download_skyscapes.py
+- evaluate_baseline.py
+- evaluate_final.py
+- fast_gpu_train.py
+- finetune_premium_model.py
+- fix_dataset_split.py
+- full_dataset_premium_training.py
+- generate_carla_aerial.py
+- investigate_test_annotations.py
+- optimized_premium_training.py
+- premium_gpu_train.py
+- prepare_combined_datasets.py
+- prepare_full_dataset.py
+- prepare_training_data.py
+- project_cleanup_current.py
+- proper_finetune.py
+- quick_annotation_check.py
+- quick_eval.py
+- quick_holdout_test.py
+- quick_model_comparison.py
+- quick_osm_test.py
+- quick_training_setup.py
+- regenerate_test_masks.py
+- simple_balanced_monitor.py
+- simple_cleanup.py
+- simple_monitor.py
+- swin_transformer_train.py
+- test_all_backup_models.py
+- test_comprehensive_datasets.py
+- test_current_model_holdout.py
+- test_multi_datasets.py
+- test_on_training_data.py
+- transform_cityscapes_aerial.py
+
+KEPT SCRIPTS (Core functionality):
+- collect_unlabeled_data.py
+- comprehensive_model_validation.py
+- consolidate_unlabeled_data.py
+- create_ael_masks.py
+- enhanced_post_processing.py
+- knowledge_distillation.py
+- monitor_training.py
+- ohem_loss.py
+- run_finetuning.py
+- run_ssl_pretraining.py
+- run_tests.bat
+- run_tests.py
+- ssl_pretraining.py
+- test_time_augmentation.py
+
+Total archived: 46 items
+
+PURPOSE:
+Archive obsolete training scripts and completed utilities
+while preserving current SSL + fine-tuning pipeline.

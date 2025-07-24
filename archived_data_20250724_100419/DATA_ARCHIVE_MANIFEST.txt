@@ -1,0 +1,47 @@
+Data Directory Archive - 2025-07-24T10:04:19.884566
+==================================================
+
+ARCHIVED DATA ITEMS:
+- data/SS_Dense/
+- data/SS_Multi_Lane/
+- data/__pycache__/
+- data/combined_lane_dataset/
+- data/fixed_ael_mmseg/
+- data/full_ael_mmseg/
+- data/full_masks/
+- data/imgs/
+- data/json/
+- data/mask/
+- data/results/
+- data/vertex/
+- data/vis/
+
+PRESERVED CORE DATA:
+- data/Aucamvile.geojson
+- data/Cairo.geojson
+- data/Glasgow.geojson
+- data/Gopeng.geojson
+- data/Nevada.geojson
+- data/SanPaulo.geojson
+- data/Valencia.geojson
+- data/Valencia.geojson.qgz
+- data/ael_mmseg/
+- data/labeled_dataset.py
+- data/premium_dataset.py
+- data/test_data.json
+- data/train_data.json
+- data/unlabeled_aerial/
+- data/unlabeled_dataset.py
+- data/val_data.json
+
+Total archived: 13 items
+Total preserved: 16 items
+
+PURPOSE:
+Archive problematic datasets (empty masks), redundant data, and space-intensive files
+while preserving core working dataset and SSL training data.
+
+CRITICAL PRESERVATIONS:
+- ael_mmseg/ - Working dataset with proper [0,1,2] annotations
+- unlabeled_aerial/ - SSL pre-training data (1,100+ images)
+- Dataset loaders and JSON configurations

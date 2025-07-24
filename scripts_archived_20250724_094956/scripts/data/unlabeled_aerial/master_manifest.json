@@ -1,0 +1,42 @@
+{
+  "collection_date": "2025-07-24 00:53:31.567313",
+  "total_target": 11000,
+  "total_collected": 0,
+  "collection_rate": "0.0%",
+  "sources": {
+    "skyscapes": {
+      "success": false,
+      "collected": 0,
+      "target": 3000,
+      "rate": "0.0%",
+      "error": "Script not found"
+    },
+    "osm_tiles": {
+      "success": false,
+      "collected": 0,
+      "target": 5000,
+      "rate": "0.0%",
+      "error": "Script not found"
+    },
+    "carla_synthetic": {
+      "success": false,
+      "collected": 0,
+      "target": 2000,
+      "rate": "0.0%",
+      "error": "Script not found"
+    },
+    "cityscapes_aerial": {
+      "success": false,
+      "collected": 0,
+      "target": 1000,
+      "rate": "0.0%",
+      "error": "Script not found"
+    }
+  },
+  "consolidated_images": [],
+  "summary": {
+    "successful_sources": 0,
+    "failed_sources": 4,
+    "ready_for_ssl": false
+  }
+}

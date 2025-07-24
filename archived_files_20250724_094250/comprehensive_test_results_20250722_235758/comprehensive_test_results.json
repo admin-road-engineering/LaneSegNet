@@ -1,0 +1,1024 @@
+{
+  "summary": {
+    "SS_Dense_Munich_Tunnel": [
+      {
+        "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0040.jpg",
+        "dataset": "SS_Dense_Munich_Tunnel",
+        "stats": {
+          "background": {
+            "pixels": 261700,
+            "percentage": 99.83062744140625
+          },
+          "white_solid": {
+            "pixels": 344,
+            "percentage": 0.1312255859375
+          },
+          "white_dashed": {
+            "pixels": 100,
+            "percentage": 0.03814697265625
+          }
+        },
+        "lane_coverage": 0.16937255859375,
+        "confidence": 0.9329885244369507,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0040_analysis.png"
+      },
+      {
+        "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0060.jpg",
+        "dataset": "SS_Dense_Munich_Tunnel",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0060_analysis.png"
+      },
+      {
+        "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0120.jpg",
+        "dataset": "SS_Dense_Munich_Tunnel",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0120_analysis.png"
+      },
+      {
+        "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0140.jpg",
+        "dataset": "SS_Dense_Munich_Tunnel",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0140_analysis.png"
+      },
+      {
+        "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0150.jpg",
+        "dataset": "SS_Dense_Munich_Tunnel",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0150_analysis.png"
+      },
+      {
+        "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0160.jpg",
+        "dataset": "SS_Dense_Munich_Tunnel",
+        "stats": {
+          "background": {
+            "pixels": 262086,
+            "percentage": 99.97787475585938
+          },
+          "white_solid": {
+            "pixels": 57,
+            "percentage": 0.0217437744140625
+          },
+          "white_dashed": {
+            "pixels": 1,
+            "percentage": 0.0003814697265625
+          }
+        },
+        "lane_coverage": 0.022125244140625,
+        "confidence": 0.6697469353675842,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0160_analysis.png"
+      }
+    ],
+    "SS_Multi_Lane_Highway": [
+      {
+        "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0040.jpg",
+        "dataset": "SS_Multi_Lane_Highway",
+        "stats": {
+          "background": {
+            "pixels": 261700,
+            "percentage": 99.83062744140625
+          },
+          "white_solid": {
+            "pixels": 344,
+            "percentage": 0.1312255859375
+          },
+          "white_dashed": {
+            "pixels": 100,
+            "percentage": 0.03814697265625
+          }
+        },
+        "lane_coverage": 0.16937255859375,
+        "confidence": 0.9329885244369507,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0040_analysis.png"
+      },
+      {
+        "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0060.jpg",
+        "dataset": "SS_Multi_Lane_Highway",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0060_analysis.png"
+      },
+      {
+        "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0120.jpg",
+        "dataset": "SS_Multi_Lane_Highway",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0120_analysis.png"
+      },
+      {
+        "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0140.jpg",
+        "dataset": "SS_Multi_Lane_Highway",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0140_analysis.png"
+      },
+      {
+        "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0150.jpg",
+        "dataset": "SS_Multi_Lane_Highway",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0150_analysis.png"
+      },
+      {
+        "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0160.jpg",
+        "dataset": "SS_Multi_Lane_Highway",
+        "stats": {
+          "background": {
+            "pixels": 262086,
+            "percentage": 99.97787475585938
+          },
+          "white_solid": {
+            "pixels": 57,
+            "percentage": 0.0217437744140625
+          },
+          "white_dashed": {
+            "pixels": 1,
+            "percentage": 0.0003814697265625
+          }
+        },
+        "lane_coverage": 0.022125244140625,
+        "confidence": 0.6697469353675842,
+        "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0160_analysis.png"
+      }
+    ],
+    "Australian_Real_World": [
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_05_06_06_25.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_05_06_06_25_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_05_15_01_05.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_05_15_01_05_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_22_52.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 261867,
+            "percentage": 99.89433288574219
+          },
+          "white_solid": {
+            "pixels": 94,
+            "percentage": 0.035858154296875
+          },
+          "white_dashed": {
+            "pixels": 183,
+            "percentage": 0.0698089599609375
+          }
+        },
+        "lane_coverage": 0.1056671142578125,
+        "confidence": 0.9118227958679199,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_52_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_22_57.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 258312,
+            "percentage": 98.5382080078125
+          },
+          "white_solid": {
+            "pixels": 1865,
+            "percentage": 0.7114410400390625
+          },
+          "white_dashed": {
+            "pixels": 1967,
+            "percentage": 0.7503509521484375
+          }
+        },
+        "lane_coverage": 1.4617919921875,
+        "confidence": 0.9496951699256897,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_57_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_23_04.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 250459,
+            "percentage": 95.54252624511719
+          },
+          "white_solid": {
+            "pixels": 5761,
+            "percentage": 2.1976470947265625
+          },
+          "white_dashed": {
+            "pixels": 5924,
+            "percentage": 2.25982666015625
+          }
+        },
+        "lane_coverage": 4.4574737548828125,
+        "confidence": 0.9593682289123535,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_04_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_23_08.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_08_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_23_11.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 262094,
+            "percentage": 99.98092651367188
+          },
+          "white_solid": {
+            "pixels": 50,
+            "percentage": 0.019073486328125
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.019073486328125,
+        "confidence": 0.8386807441711426,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_11_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_22_52.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 261867,
+            "percentage": 99.89433288574219
+          },
+          "white_solid": {
+            "pixels": 94,
+            "percentage": 0.035858154296875
+          },
+          "white_dashed": {
+            "pixels": 183,
+            "percentage": 0.0698089599609375
+          }
+        },
+        "lane_coverage": 0.1056671142578125,
+        "confidence": 0.9118227958679199,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_52_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_22_57.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 258312,
+            "percentage": 98.5382080078125
+          },
+          "white_solid": {
+            "pixels": 1865,
+            "percentage": 0.7114410400390625
+          },
+          "white_dashed": {
+            "pixels": 1967,
+            "percentage": 0.7503509521484375
+          }
+        },
+        "lane_coverage": 1.4617919921875,
+        "confidence": 0.9496951699256897,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_57_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_23_04.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 250459,
+            "percentage": 95.54252624511719
+          },
+          "white_solid": {
+            "pixels": 5761,
+            "percentage": 2.1976470947265625
+          },
+          "white_dashed": {
+            "pixels": 5924,
+            "percentage": 2.25982666015625
+          }
+        },
+        "lane_coverage": 4.4574737548828125,
+        "confidence": 0.9593682289123535,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_04_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_23_08.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 262144,
+            "percentage": 100.0
+          },
+          "white_solid": {
+            "pixels": 0,
+            "percentage": 0.0
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.0,
+        "confidence": 0.0,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_08_analysis.png"
+      },
+      {
+        "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_23_11.png",
+        "dataset": "Australian_Real_World",
+        "stats": {
+          "background": {
+            "pixels": 262094,
+            "percentage": 99.98092651367188
+          },
+          "white_solid": {
+            "pixels": 50,
+            "percentage": 0.019073486328125
+          },
+          "white_dashed": {
+            "pixels": 0,
+            "percentage": 0.0
+          }
+        },
+        "lane_coverage": 0.019073486328125,
+        "confidence": 0.8386807441711426,
+        "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_11_analysis.png"
+      }
+    ]
+  },
+  "detailed_results": [
+    {
+      "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0040.jpg",
+      "dataset": "SS_Dense_Munich_Tunnel",
+      "stats": {
+        "background": {
+          "pixels": 261700,
+          "percentage": 99.83062744140625
+        },
+        "white_solid": {
+          "pixels": 344,
+          "percentage": 0.1312255859375
+        },
+        "white_dashed": {
+          "pixels": 100,
+          "percentage": 0.03814697265625
+        }
+      },
+      "lane_coverage": 0.16937255859375,
+      "confidence": 0.9329885244369507,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0040_analysis.png"
+    },
+    {
+      "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0060.jpg",
+      "dataset": "SS_Dense_Munich_Tunnel",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0060_analysis.png"
+    },
+    {
+      "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0120.jpg",
+      "dataset": "SS_Dense_Munich_Tunnel",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0120_analysis.png"
+    },
+    {
+      "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0140.jpg",
+      "dataset": "SS_Dense_Munich_Tunnel",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0140_analysis.png"
+    },
+    {
+      "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0150.jpg",
+      "dataset": "SS_Dense_Munich_Tunnel",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0150_analysis.png"
+    },
+    {
+      "image": "data\\SS_Dense\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0160.jpg",
+      "dataset": "SS_Dense_Munich_Tunnel",
+      "stats": {
+        "background": {
+          "pixels": 262086,
+          "percentage": 99.97787475585938
+        },
+        "white_solid": {
+          "pixels": 57,
+          "percentage": 0.0217437744140625
+        },
+        "white_dashed": {
+          "pixels": 1,
+          "percentage": 0.0003814697265625
+        }
+      },
+      "lane_coverage": 0.022125244140625,
+      "confidence": 0.6697469353675842,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Dense_Munich_Tunnel_2012-04-26-Muenchen-Tunnel_4K0G0160_analysis.png"
+    },
+    {
+      "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0040.jpg",
+      "dataset": "SS_Multi_Lane_Highway",
+      "stats": {
+        "background": {
+          "pixels": 261700,
+          "percentage": 99.83062744140625
+        },
+        "white_solid": {
+          "pixels": 344,
+          "percentage": 0.1312255859375
+        },
+        "white_dashed": {
+          "pixels": 100,
+          "percentage": 0.03814697265625
+        }
+      },
+      "lane_coverage": 0.16937255859375,
+      "confidence": 0.9329885244369507,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0040_analysis.png"
+    },
+    {
+      "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0060.jpg",
+      "dataset": "SS_Multi_Lane_Highway",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0060_analysis.png"
+    },
+    {
+      "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0120.jpg",
+      "dataset": "SS_Multi_Lane_Highway",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0120_analysis.png"
+    },
+    {
+      "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0140.jpg",
+      "dataset": "SS_Multi_Lane_Highway",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0140_analysis.png"
+    },
+    {
+      "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0150.jpg",
+      "dataset": "SS_Multi_Lane_Highway",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0150_analysis.png"
+    },
+    {
+      "image": "data\\SS_Multi_Lane\\test\\images\\2012-04-26-Muenchen-Tunnel_4K0G0160.jpg",
+      "dataset": "SS_Multi_Lane_Highway",
+      "stats": {
+        "background": {
+          "pixels": 262086,
+          "percentage": 99.97787475585938
+        },
+        "white_solid": {
+          "pixels": 57,
+          "percentage": 0.0217437744140625
+        },
+        "white_dashed": {
+          "pixels": 1,
+          "percentage": 0.0003814697265625
+        }
+      },
+      "lane_coverage": 0.022125244140625,
+      "confidence": 0.6697469353675842,
+      "result_file": "comprehensive_test_results_20250722_235758\\SS_Multi_Lane_Highway_2012-04-26-Muenchen-Tunnel_4K0G0160_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_05_06_06_25.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_05_06_06_25_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_05_15_01_05.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_05_15_01_05_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_22_52.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 261867,
+          "percentage": 99.89433288574219
+        },
+        "white_solid": {
+          "pixels": 94,
+          "percentage": 0.035858154296875
+        },
+        "white_dashed": {
+          "pixels": 183,
+          "percentage": 0.0698089599609375
+        }
+      },
+      "lane_coverage": 0.1056671142578125,
+      "confidence": 0.9118227958679199,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_52_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_22_57.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 258312,
+          "percentage": 98.5382080078125
+        },
+        "white_solid": {
+          "pixels": 1865,
+          "percentage": 0.7114410400390625
+        },
+        "white_dashed": {
+          "pixels": 1967,
+          "percentage": 0.7503509521484375
+        }
+      },
+      "lane_coverage": 1.4617919921875,
+      "confidence": 0.9496951699256897,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_57_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_23_04.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 250459,
+          "percentage": 95.54252624511719
+        },
+        "white_solid": {
+          "pixels": 5761,
+          "percentage": 2.1976470947265625
+        },
+        "white_dashed": {
+          "pixels": 5924,
+          "percentage": 2.25982666015625
+        }
+      },
+      "lane_coverage": 4.4574737548828125,
+      "confidence": 0.9593682289123535,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_04_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_23_08.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_08_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\Downloads\\Australia_latest_2025_07_22_23_11.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 262094,
+          "percentage": 99.98092651367188
+        },
+        "white_solid": {
+          "pixels": 50,
+          "percentage": 0.019073486328125
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.019073486328125,
+      "confidence": 0.8386807441711426,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_11_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_22_52.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 261867,
+          "percentage": 99.89433288574219
+        },
+        "white_solid": {
+          "pixels": 94,
+          "percentage": 0.035858154296875
+        },
+        "white_dashed": {
+          "pixels": 183,
+          "percentage": 0.0698089599609375
+        }
+      },
+      "lane_coverage": 0.1056671142578125,
+      "confidence": 0.9118227958679199,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_52_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_22_57.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 258312,
+          "percentage": 98.5382080078125
+        },
+        "white_solid": {
+          "pixels": 1865,
+          "percentage": 0.7114410400390625
+        },
+        "white_dashed": {
+          "pixels": 1967,
+          "percentage": 0.7503509521484375
+        }
+      },
+      "lane_coverage": 1.4617919921875,
+      "confidence": 0.9496951699256897,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_22_57_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_23_04.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 250459,
+          "percentage": 95.54252624511719
+        },
+        "white_solid": {
+          "pixels": 5761,
+          "percentage": 2.1976470947265625
+        },
+        "white_dashed": {
+          "pixels": 5924,
+          "percentage": 2.25982666015625
+        }
+      },
+      "lane_coverage": 4.4574737548828125,
+      "confidence": 0.9593682289123535,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_04_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_23_08.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 262144,
+          "percentage": 100.0
+        },
+        "white_solid": {
+          "pixels": 0,
+          "percentage": 0.0
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.0,
+      "confidence": 0.0,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_08_analysis.png"
+    },
+    {
+      "image": "C:\\Users\\Admin\\LaneSegNet\\test_images\\Australia_latest_2025_07_22_23_11.png",
+      "dataset": "Australian_Real_World",
+      "stats": {
+        "background": {
+          "pixels": 262094,
+          "percentage": 99.98092651367188
+        },
+        "white_solid": {
+          "pixels": 50,
+          "percentage": 0.019073486328125
+        },
+        "white_dashed": {
+          "pixels": 0,
+          "percentage": 0.0
+        }
+      },
+      "lane_coverage": 0.019073486328125,
+      "confidence": 0.8386807441711426,
+      "result_file": "comprehensive_test_results_20250722_235758\\Australian_Real_World_Australia_latest_2025_07_22_23_11_analysis.png"
+    }
+  ],
+  "model_info": {
+    "path": "work_dirs/premium_gpu_best_model.pth",
+    "timestamp": "20250722_235758"
+  }
+}

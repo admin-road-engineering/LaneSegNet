@@ -1,0 +1,38 @@
+{
+  "epoch": 20,
+  "overall_miou": 81.9,
+  "lane_classes_miou": 76.7,
+  "balanced_score": 73.8,
+  "class_performance": {
+    "background": {
+      "iou": 97.6,
+      "precision": 99.0,
+      "recall": 98.6,
+      "f1": 98.8
+    },
+    "white_solid": {
+      "iou": 65.1,
+      "precision": 74.0,
+      "recall": 83.7,
+      "f1": 78.1
+    },
+    "white_dashed": {
+      "iou": 64.9,
+      "precision": 77.0,
+      "recall": 78.8,
+      "f1": 77.5
+    }
+  },
+  "training_config": {
+    "loss_function": "DiceFocal + Lov\u00e1sz + Edge + Smoothness",
+    "class_weights": [
+      0.1,
+      5.0,
+      5.0
+    ],
+    "learning_rate": "2.57e-04",
+    "architecture": "Premium U-Net with Attention"
+  },
+  "production_status": "READY - Exceeds 80% mIoU target",
+  "backup_timestamp": "20250722_170456"
+}

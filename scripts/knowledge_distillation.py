@@ -13,6 +13,12 @@ import logging
 from pathlib import Path
 import json
 from tqdm import tqdm
+import os
+import sys
+
+# Import central configuration
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from configs.global_config import NUM_CLASSES
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -23,7 +29,7 @@ class EfficientStudentLaneNet(nn.Module):
     Target: <2M parameters, <100ms inference time.
     """
     
-    def __init__(self, num_classes=3, base_channels=32):
+    def __init__(self, num_classes=NUM_CLASSES, base_channels=32):
         super().__init__()
         
         # Efficient encoder (MobileNetV2-inspired)
@@ -375,7 +381,7 @@ def main():
     print(f"Device: {device}")
     
     # Create student model
-    student_model = EfficientStudentLaneNet(num_classes=3)
+    student_model = EfficientStudentLaneNet(num_classes=NUM_CLASSES)
     
     print("\nStudent model created successfully!")
     print("Next steps:")

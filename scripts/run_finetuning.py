@@ -13,10 +13,15 @@ import argparse
 import os
 import sys
 import time
+
+# Import central configuration
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from configs.global_config import NUM_CLASSES
 import json
 from pathlib import Path
 from tqdm import tqdm
 import logging
+import numpy as np
 
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -62,7 +67,7 @@ class PretrainedLaneNet(nn.Module):
     Combines SSL pre-trained features with task-specific decoder.
     """
     
-    def __init__(self, num_classes=3, img_size=512, encoder_weights_path=None, freeze_encoder=False):
+    def __init__(self, num_classes=NUM_CLASSES, img_size=512, encoder_weights_path=None, freeze_encoder=False):
         super().__init__()
         
         # Create MAE model to extract encoder
@@ -246,6 +251,11 @@ class FineTuningTrainer:
         self.save_dir.mkdir(parents=True, exist_ok=True)
         self.use_enhanced_postprocessing = use_enhanced_postprocessing
         
+        # Early stopping parameters
+        self.best_iou = 0.0
+        self.patience = 10
+        self.early_stop_counter = 0
+        
         # Loss function
         if use_ohem:
             self.criterion = OHEMDiceFocalLoss(
@@ -280,9 +290,9 @@ class FineTuningTrainer:
             {'params': decoder_params, 'lr': 5e-4}     # Higher LR for new decoder
         ], weight_decay=1e-4)
         
-        # Learning rate scheduler
-        self.scheduler = optim.lr_scheduler.CosineAnnealingLR(
-            self.optimizer, T_max=100, eta_min=1e-6
+        # Learning rate scheduler - ReduceLROnPlateau for adaptive learning
+        self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+            self.optimizer, mode='max', factor=0.5, patience=5, verbose=True
         )
         
         # Enhanced post-processing (optional)
@@ -334,7 +344,6 @@ class FineTuningTrainer:
             })
         
         avg_loss = total_loss / num_batches
-        self.scheduler.step()
         
         return avg_loss
     
@@ -370,19 +379,27 @@ class FineTuningTrainer:
         pred_np = pred.cpu().numpy()
         target_np = target.cpu().numpy()
         
+        # CRITICAL FIX: Dynamic class detection from model
+        num_classes = self.model.final_conv.out_channels  # Typically 3: classes [0,1,2]
+        logger.info(f"Computing IoU for classes 1 to {num_classes-1} (excluding background class 0, total classes: {num_classes})")
+        
         ious = []
-        for class_id in range(1, 4):  # Lane classes 1, 2, 3
+        for class_id in range(1, num_classes):  # Iterate over actual lane classes (e.g., 1,2 excluding background 0)
             pred_mask = (pred_np == class_id)
             target_mask = (target_np == class_id)
             
-            intersection = (pred_mask & target_mask).sum()
-            union = (pred_mask | target_mask).sum()
+            intersection = np.logical_and(pred_mask, target_mask).sum()
+            union = np.logical_or(pred_mask, target_mask).sum()
             
-            if union > 0:
+            if union == 0:
+                logger.info(f"Class {class_id}: No ground truth pixels found")
+                ious.append(float('nan'))  # Skip if no ground truth for class
+            else:
                 iou = intersection / union
+                logger.info(f"Class {class_id}: IoU = {iou:.3f} (intersection: {intersection}, union: {union})")
                 ious.append(iou)
         
-        return sum(ious) / len(ious) if ious else 0.0
+        return np.nanmean(ious) if ious else 0.0
     
     def save_checkpoint(self, epoch, loss, iou, is_best=False):
         """Save model checkpoint."""
@@ -430,10 +447,20 @@ class FineTuningTrainer:
                 'decoder_lr': self.optimizer.param_groups[1]['lr']
             })
             
-            # Check if best model
+            # Check if best model and update early stopping
             is_best = avg_iou > self.best_iou
             if is_best:
                 self.best_iou = avg_iou
+                self.early_stop_counter = 0  # Reset counter
+                # Save best model automatically for easy recovery
+                best_model_path = self.save_dir / "best_model.pth"
+                torch.save(self.model.state_dict(), best_model_path)
+                logger.info(f"New best model saved: {best_model_path}")
+            else:
+                self.early_stop_counter += 1
+                
+            # Learning rate scheduling based on validation IoU
+            self.scheduler.step(avg_iou)
             
             # Logging
             logger.info(
@@ -445,6 +472,12 @@ class FineTuningTrainer:
             # Save checkpoint
             if (epoch + 1) % 10 == 0 or is_best:
                 self.save_checkpoint(epoch + 1, avg_loss, avg_iou, is_best)
+                
+            # Early stopping check
+            if self.early_stop_counter >= self.patience:
+                logger.info(f"Early stopping triggered after {epoch + 1} epochs (patience: {self.patience})")
+                logger.info(f"Best IoU achieved: {self.best_iou:.1%}")
+                break
         
         # Save final model and log
         self.save_checkpoint(epochs, avg_loss, avg_iou, is_best=False)
@@ -456,6 +489,51 @@ class FineTuningTrainer:
         logger.info("Fine-tuning completed!")
         logger.info(f"Best IoU achieved: {self.best_iou:.1%}")
         logger.info(f"Models saved to: {self.save_dir}")
+
+def _validate_dataset_integrity(dataset, split_name):
+    """Validate dataset integrity: Ensure non-empty masks and class distribution."""
+    logger.info(f"Validating {split_name} dataset integrity...")
+    
+    total_pixels = 0
+    class_counts = {i: 0 for i in range(NUM_CLASSES)}
+    empty_mask_count = 0
+    
+    for idx in range(min(100, len(dataset))):  # Sample first 100 for efficiency
+        try:
+            _, mask = dataset[idx]  # Get mask (assuming dataset returns (img, mask))
+            mask_np = mask.numpy() if isinstance(mask, torch.Tensor) else np.array(mask)
+            
+            total_pixels += mask_np.size
+            unique, counts = np.unique(mask_np, return_counts=True)
+            
+            # Check for invalid classes
+            for cls, cnt in zip(unique, counts):
+                if cls >= NUM_CLASSES:
+                    raise ValueError(f"Invalid class {cls} in {split_name} dataset (exceeds NUM_CLASSES={NUM_CLASSES})")
+                class_counts[cls] += cnt
+            
+            # Check for empty masks
+            if np.all(mask_np == 0):
+                empty_mask_count += 1
+                if empty_mask_count > 5:  # Allow few empty masks but warn if too many
+                    raise ValueError(f"Too many empty masks in {split_name} dataset (found {empty_mask_count})")
+                    
+        except Exception as e:
+            logger.error(f"Error validating sample {idx} in {split_name}: {e}")
+            continue
+    
+    # Calculate statistics
+    non_bg_pixels = sum(class_counts.values()) - class_counts[0]
+    non_bg_ratio = non_bg_pixels / total_pixels if total_pixels > 0 else 0
+    
+    logger.info(f"{split_name} dataset validation complete:")
+    logger.info(f"  Total pixels sampled: {total_pixels:,}")
+    logger.info(f"  Class distribution: {class_counts}")
+    logger.info(f"  Non-background ratio: {non_bg_ratio:.1%}")
+    logger.info(f"  Empty masks found: {empty_mask_count}")
+    
+    if non_bg_ratio < 0.01:  # Less than 1% lane pixels
+        logger.warning(f"Low lane pixel ratio ({non_bg_ratio:.1%}) in {split_name} - check data quality")
 
 def create_dataloaders(data_dir="data/ael_mmseg", img_size=512, batch_size=4, num_workers=4):
     """Create training and validation dataloaders using the standardized LabeledDataset."""
@@ -476,6 +554,10 @@ def create_dataloaders(data_dir="data/ael_mmseg", img_size=512, batch_size=4, nu
             os.path.join(data_dir, "ann_dir/val"),
             mode='val', img_size=img_size_tuple
         )
+        
+        # Validate dataset integrity
+        _validate_dataset_integrity(train_dataset, "training")
+        _validate_dataset_integrity(val_dataset, "validation")
         
         # Create dataloaders
         train_loader = DataLoader(

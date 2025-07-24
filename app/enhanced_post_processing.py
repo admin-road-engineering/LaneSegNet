@@ -39,6 +39,7 @@ LANE_PHYSICS_CONSTRAINTS = {
 def apply_physics_informed_filtering(lane_markings: List[Dict], image_shape: Tuple[int, int]) -> List[Dict]:
     """
     Apply physics-informed constraints to filter and validate lane markings.
+    PRODUCTION SAFETY: All filtering is enforced - no debug bypasses.
     
     Args:
         lane_markings: List of detected lane markings
@@ -47,6 +48,11 @@ def apply_physics_informed_filtering(lane_markings: List[Dict], image_shape: Tup
     Returns:
         Filtered list of lane markings that satisfy physical constraints
     """
+    # Production safety check
+    if not lane_markings:
+        logger.info("No lane markings provided for filtering")
+        return []
+        
     filtered_markings = []
     height, width = image_shape
     

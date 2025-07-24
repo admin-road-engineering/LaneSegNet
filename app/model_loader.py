@@ -1,6 +1,12 @@
 import logging
 import torch
 from mmseg.apis import init_model
+import os
+import sys
+
+# Import central configuration
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from configs.global_config import NUM_CLASSES as CENTRAL_NUM_CLASSES
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +42,8 @@ LANE_CLASSES = [
     'stop_line'
 ]
 
-NUM_CLASSES = len(LANE_CLASSES)
+# Override local with central config (temporarily limit to 3; expand later if needed)
+NUM_CLASSES = CENTRAL_NUM_CLASSES
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 def load_model(use_lanesegnet=False, prefer_fine_tuned=True):

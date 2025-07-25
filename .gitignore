@@ -81,6 +81,27 @@ work_dirs/
 outputs/
 experiments/
 
+# Development artifacts and archives
+archived_*/
+*_archived_*/
+model_backups/
+test_results/
+comprehensive_test_results_*/
+visualizations/
+local_aerial_tests/
+
+# Generated result files
+*.json
+!configs/*.json
+!data/test_data.json
+!data/train_data.json 
+!data/val_data.json
+!package.json
+!pyproject.toml
+
+# NumPy arrays and predictions
+*.npy
+
 # Jupyter
 .ipynb_checkpoints/
 

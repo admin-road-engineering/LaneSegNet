@@ -46,7 +46,8 @@
       "Bash(.venv/Scripts/python.exe scripts/cleanup_project.py:*)",
       "Bash(.venv/Scripts/python.exe scripts/analyze_miou_discrepancy.py:*)",
       "Bash(powershell:*)",
-      "Bash(echo \"$((27356 / 5))\")"
+      "Bash(echo \"$((27356 / 5))\")",
+      "Bash(timeout:*)"
     ],
     "deny": []
   }

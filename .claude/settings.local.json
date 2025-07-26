@@ -47,7 +47,14 @@
       "Bash(.venv/Scripts/python.exe scripts/analyze_miou_discrepancy.py:*)",
       "Bash(powershell:*)",
       "Bash(echo \"$((27356 / 5))\")",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(rm:*)",
+      "Bash(git gc:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(cmd /c:*)",
+      "Bash(.venv/Scripts/python.exe scripts/emergency_training_fix.py:*)",
+      "mcp__gemini-review__review_output",
+      "Bash(gh repo create:*)"
     ],
     "deny": []
   }
